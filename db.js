@@ -100,7 +100,7 @@ var realtime = function (mode) {
 
     return new Promise(function (resolve, reject) {
         connect(function (db) {
-            var cursor = db.collection(mode).find({  }).limit(20);
+            var cursor = db.collection(mode).find({  }).limit(20).sort({time:-1});
 
             cursor.each(function (err, doc) {
                 if (err) {
@@ -138,7 +138,7 @@ var minute = function (mode) {
             var prev = -1;
             var count_internal = 2;
 
-            var cursor = db.collection(mode).find({}).sort(['time', -1]);
+            var cursor = db.collection(mode).find({}).sort({time:-1});
 
             cursor.each(function (err, doc) {
                 if (err) {
@@ -187,7 +187,7 @@ var hour = function(mode) {
             var prev = -1;
             var count_internal = 2;
 
-            var cursor = db.collection(mode).find({}).sort(['time', -1]);
+            var cursor = db.collection(mode).find({}).sort({time:-1});
 
             cursor.each(function (err, doc) {
                 if (err) {
@@ -240,7 +240,7 @@ var day = function(mode) {
             var prev = -1;
             var count_internal = 2;
 
-            var cursor = db.collection(mode).find({}).sort(['time', -1]);
+            var cursor = db.collection(mode).find({}).sort({time:-1});
 
             cursor.each(function (err, doc) {
                 if (err) {
@@ -293,6 +293,6 @@ module.exports = {
 
 // day('temp').then(function (res) {console.log(res);}, function (err) {console.log(err);});
 // hour('temp').then(function (res) {console.log(res);}, function (err) {console.log(err);});
-// realtime('temp').then(function (res) {console.log(res);}, function (err) {console.log(err);});
+realtime('temp').then(function (res) {console.log(res);}, function (err) {console.log(err);});
 // insert('temp', 35).then(function (res) {console.log(res);}, function (err) {console.log(err);});
 // minute('temp').then(function (result) {console.dir(result, result.length);}, function (err) {console.log(err);});
