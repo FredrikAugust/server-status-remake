@@ -16,7 +16,7 @@ var URL = 'mongodb://' + HOST + ':' + PORT + '/' + DB;
 
 /**
  * Connects to the database and calls the anon function provided
- * @param  {function}  Func Anon function to call
+ * @param  {Function}  Func Anon function to call
  * @return {null}      No return value
  */
 var connect = function (func) {
@@ -56,9 +56,9 @@ function insertCallback (err, result, db, resolve, reject) {
 
 /**
  * Insert an entry into the db
- * @param  {string}   mode  either 'temp' or 'load'; what kind of entry
- * @param  {float}    value the value to insert. float
- * @return {Promise}  A promise with the value passed in
+ * @param  {String}   mode  either 'temp' or 'load'; what kind of entry
+ * @param  {Float}    value the value to insert. float
+ * @return {Function} A promise with the value passed in
  */
 var insert = function (mode, value) {
     return new Promise(function (resolve, reject) {
@@ -82,9 +82,9 @@ var insert = function (mode, value) {
 };
 
 /**
- * [realtime description]
- * @param  {[type]} mode [description]
- * @return {[type]}      [description]
+ * Gets the 20 last entries of one mode
+ * @param  {String} mode The type of entry to retrieve
+ * @return {Function}    Returns either a resolve or reject function
  */
 var realtime = function (mode) {
     var latest = [];
@@ -102,17 +102,10 @@ var realtime = function (mode) {
 
                 if (doc !== null) {
                     // Push [hh:mm:ss, temp|load] to latest
-                    if (mode.toLowerCase() == 'temp') {
-                        latest.push([doc.time.getHours() + ':' +
-                                          doc.time.getMinutes() + ':' +
-                                          doc.time.getSeconds(),
-                                          doc.temp]);
-                    } else if (mode.toLowerCase() == 'load') {
-                        latest.push([doc.time.getHours() + ':' +
-                                          doc.time.getMinutes() + ':' +
-                                          doc.time.getSeconds(),
-                                          doc.load]);
-                    }
+                    latest.push([doc.time.getHours() + ':' +
+                                      doc.time.getMinutes() + ':' +
+                                      doc.time.getSeconds(),
+                                      (doc.temp || doc.load)]);
                 } else {
                     resolve(latest);
                     db.close();
@@ -123,11 +116,12 @@ var realtime = function (mode) {
 };
 
 /**
- * Get's the average temperature for the 20 last minutes_temp
- * @return {array} Two-dimentional array with HH:MM and temp:float
+ * Get's the average temperature for the 20 last minutes
+ * @param  {String} What type of entry to retrieve
+ * @return {Array}  Two-dimentional array with HH:MM and temp|load:float
  */
-var temp_minute = function () {
-    var minutes_temp = [];
+var minute = function (mode) {
+    var minutes = [];
 
     return new Promise(function (resolve, reject) {
         connect(function (db) {
@@ -135,7 +129,7 @@ var temp_minute = function () {
             var prev = -1;
             var count_internal = 2;
 
-            var cursor = db.collection('temp').find({}).sort(['time', -1]);
+            var cursor = db.collection(mode).find({}).sort(['time', -1]);
 
             cursor.each(function (err, doc) {
                 if (err) {
@@ -146,23 +140,23 @@ var temp_minute = function () {
 
                 if (doc !== null) {
                     if (count <= 20 && doc.time.getMinutes() == prev) {
-                        // Push [hh:mm:ss, temp] to latest_temp
-                        minutes_temp[count] = [doc.time.getHours() + ':' + doc.time.getMinutes(),
-                                               (minutes_temp[count][1] + doc.temp) / 2];
+                        // Push [hh:mm:ss, temp|load] to minutes
+                        minutes[count] = [doc.time.getHours() + ':' + doc.time.getMinutes(),
+                                               (minutes[count][1] + (doc.temp || doc.load)) / 2];
                         count_internal++;
                     } else if (doc.time.getMinutes() != prev) {
                         count++;
                         prev = doc.time.getMinutes();
-                        // Push [hh:mm:ss, temp] to latest_temp
-                        minutes_temp[count] = [doc.time.getHours() + ':' + doc.time.getMinutes(),
-                                               0 + doc.temp];
+                        // Push [hh:mm:ss, temp|load] to minutes
+                        minutes[count] = [doc.time.getHours() + ':' + doc.time.getMinutes(),
+                                               0 + (doc.temp || doc.load)];
                         count_internal = 2;
                     } else {
-                        resolve(minutes_temp);
+                        resolve(minutes);
                         db.close();
                     }
                 } else {
-                    resolve(minutes_temp);
+                    resolve(minutes);
                     db.close();
                 }
             });
@@ -174,11 +168,12 @@ var temp_minute = function () {
 
 module.exports = {
     insert: insert,
-    realtime: realtime
+    realtime: realtime,
+    minute: minute
 };
 
 // Testing
 
-realtime('temp').then(function (res) {console.log(res);}, function (err) {console.log(err);});
+// realtime('temp').then(function (res) {console.log(res);}, function (err) {console.log(err);});
 // insert('temp', 35).then(function (res) {console.log(res);}, function (err) {console.log(err);});
-// temp_minute().then(function (result) {console.dir(result, result.length);}, function (err) {console.log(err);});
+// minute('temp').then(function (result) {console.dir(result, result.length);}, function (err) {console.log(err);});
