@@ -13,6 +13,15 @@ var DB = 'serverstatus' || process.env.MONGODB;
 var URL = 'mongodb://' + HOST + ':' + PORT + '/' + DB;
 
 // Base function
+var WEEKDAYS = [
+    'Sunday',
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday'
+];
 
 /**
  * Connects to the database and calls the anon function provided
@@ -164,16 +173,126 @@ var minute = function (mode) {
     });
 };
 
+/**
+ * Get's the average temperature for the last 10 hours
+ * @param  {String} What type of entry to retrieve
+ * @return {Array}  Two-dimentional array with Weekday date, hour:00
+ */
+var hour = function(mode) {
+    var hours = [];
+
+    return new Promise(function (resolve, reject) {
+        connect(function (db) {
+            var count = -1;
+            var prev = -1;
+            var count_internal = 2;
+
+            var cursor = db.collection(mode).find({}).sort(['time', -1]);
+
+            cursor.each(function (err, doc) {
+                if (err) {
+                    reject(err);
+                }
+
+                assert.equal(err, null);
+
+                if (doc !== null) {
+                    if (count <= 7 && doc.time.getHours() == prev) {
+                        // Push [hh:mm:ss, temp|load] to hours
+                        hours[count] = [WEEKDAYS[doc.time.getDay()] + ' ' +
+                                        doc.time.getDate() + ', ' +
+                                        doc.time.getHours() + ':00',
+                                        (hours[count][1] + (doc.temp || doc.load)) / 2];
+                        count_internal++;
+                    } else if (doc.time.getHours() != prev) {
+                        count++;
+                        prev = doc.time.getHours();
+                        // Push [hh:mm:ss, temp|load] to hours
+                        hours[count] = [WEEKDAYS[doc.time.getDay()] + ' ' +
+                                        doc.time.getDate() + ', ' +
+                                        doc.time.getHours() + ':00',
+                                        0 + (doc.temp || doc.load)];
+                        count_internal = 2;
+                    } else {
+                        resolve(hours);
+                        db.close();
+                    }
+                } else {
+                    resolve(hours);
+                    db.close();
+                }
+            });
+        });
+    });
+};
+
+/**
+ * Get's the average temperature for the last week
+ * @param  {String} What type of entry to retrieve
+ * @return {Array}  Two-dimentional array with Weekday date/month
+ */
+var day = function(mode) {
+    var days = [];
+
+    return new Promise(function (resolve, reject) {
+        connect(function (db) {
+            var count = -1;
+            var prev = -1;
+            var count_internal = 2;
+
+            var cursor = db.collection(mode).find({}).sort(['time', -1]);
+
+            cursor.each(function (err, doc) {
+                if (err) {
+                    reject(err);
+                }
+
+                assert.equal(err, null);
+
+                if (doc !== null) {
+                    if (count <= 10 && doc.time.getDate() == prev) {
+                        // Push [hh:mm:ss, temp|load] to days
+                        days[count] = [WEEKDAYS[doc.time.getDay()] + ' ' +
+                                        doc.time.getDate() + '/' +
+                                        (doc.time.getMonth() + 1),
+                                        (days[count][1] + (doc.temp || doc.load)) / 2];
+                        count_internal++;
+                    } else if (doc.time.getDate() != prev) {
+                        count++;
+                        prev = doc.time.getDate();
+                        // Push [hh:mm:ss, temp|load] to days
+                        days[count] = [WEEKDAYS[doc.time.getDay()] + ' ' +
+                                        doc.time.getDate() + '/' +
+                                        (doc.time.getMonth() + 1),
+                                        0 + (doc.temp || doc.load)];
+                        count_internal = 2;
+                    } else {
+                        resolve(days);
+                        db.close();
+                    }
+                } else {
+                    resolve(days);
+                    db.close();
+                }
+            });
+        });
+    });
+};
+
 // Exports
 
 module.exports = {
     insert: insert,
     realtime: realtime,
-    minute: minute
+    minute: minute,
+    hour: hour,
+    day: day
 };
 
 // Testing
 
+// day('temp').then(function (res) {console.log(res);}, function (err) {console.log(err);});
+// hour('temp').then(function (res) {console.log(res);}, function (err) {console.log(err);});
 // realtime('temp').then(function (res) {console.log(res);}, function (err) {console.log(err);});
 // insert('temp', 35).then(function (res) {console.log(res);}, function (err) {console.log(err);});
 // minute('temp').then(function (result) {console.dir(result, result.length);}, function (err) {console.log(err);});
