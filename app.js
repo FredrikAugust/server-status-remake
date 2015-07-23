@@ -11,7 +11,13 @@ app.set('view engine', 'jade');
 
 // Routes
 app.get('/', function (req, res) {
-    res.render('index', { title: "" });
+    db.temp_realtime().then(function (result) {
+        res.send(result);
+    }, function (err) {
+        res.send('Error');
+    });
+
+    // res.render('index', { title: '' });
 });
 
 // Settings
