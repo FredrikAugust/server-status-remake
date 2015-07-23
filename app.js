@@ -3,6 +3,7 @@
 
 // Imports
 var express = require('express');
+var db = require('./db.js');
 
 // Create app
 var app = express();
