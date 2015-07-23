@@ -1,4 +1,4 @@
-# Remake of @Tijndagamers "_Server Status_" page.
+# Remake of @Tijndagamer's "_Server Status_" page.
 
 As the last version I made was insecure, dysfunctional, badly optimized and in general quite bad I decided to remake the entire project, this time featuring semi-good code.
 
