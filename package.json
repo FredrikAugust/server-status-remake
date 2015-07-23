@@ -1,0 +1,31 @@
+{
+  "name": "server-status-remake",
+  "version": "1.0.0",
+  "description": "Remake of @tijndagamer's server status page",
+  "main": "app.js",
+  "readme": "README.md",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FredrikAugust/server-status-remake.git"
+  },
+  "keywords": [
+    "express",
+    "angular",
+    "node",
+    "plotly"
+  ],
+  "author": "Fredrik A. Madsen-Malmo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/FredrikAugust/server-status-remake/issues"
+  },
+  "homepage": "https://github.com/FredrikAugust/server-status-remake#readme",
+  "dependencies": {
+    "angular": "^1.4.3",
+    "express": "^4.13.1",
+    "plotly": "^1.0.2"
+  }
+}
