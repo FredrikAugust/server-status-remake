@@ -16,7 +16,7 @@ var URL = 'mongodb://' + HOST + ':' + PORT + '/' + DB;
 
 /**
  * Connects to the database and calls the anon function provided
- * @param  {function} func Anon function to call
+ * @param  {function}  Func Anon function to call
  * @return {null}      No return value
  */
 var connect = function (func) {
@@ -34,43 +34,64 @@ var connect = function (func) {
 
 // DB functions
 
-// Temperatures
+/**
+ * Callback used for the isert function
+ * @param  {Object}   err     This is the Error object that describes the error encountered
+ * @param  {Object}   result  This is the result, contains all info about the insert
+ * @param  {Object}   db      The database object, here I use it to close the db
+ * @param  {Function} resolve This is the function to be called when the script completes
+ * @param  {Function} reject  This is the function to be called if the script fails
+ * @return {Object}           Resolve or Reject
+ */
+function insertCallback (err, result, db, resolve, reject) {
+    if (err) {
+        reject(err);
+    }
+
+    assert.equal(err, null);
+
+    db.close();
+    resolve(result);
+}
 
 /**
- * Inserts a temperature entry
- * @param  {float} temp The temperature to insert
- * @return {null}  Promise with either err or true
+ * Insert an entry into the db
+ * @param  {string}   mode  either 'temp' or 'load'; what kind of entry
+ * @param  {float}    value the value to insert. float
+ * @return {Promise}  A promise with the value passed in
  */
-var insert_temp = function (temp) {
+var insert = function (mode, value) {
     return new Promise(function (resolve, reject) {
         connect(function (db) {
-            db.collection('temp').insertOne({
-                "time": new Date(),
-                "temp": temp
-            }, function (err, result) {
-                if (err) {
-                    reject(err);
-                }
-
-                assert.equal(err, null);
-
+            if (mode.toLowerCase() == 'temp') {
+                db.collection('temp').insertOne({
+                    "time": new Date(),
+                    "temp": value
+                }, function(err, result){insertCallback(err, result, db, resolve, reject);});
+            } else if (mode.toLowerCase() == 'load') {
+                db.collection('load').insertOne({
+                    "time": new Date(),
+                    "load": value
+                }, function(err, result){insertCallback(err, result, db, resolve, reject);});
+            } else {
                 db.close();
-                resolve(temp);
-            });
+                reject('Invalid input');
+            }
         });
     });
 };
 
 /**
- * Promise with the latest_temp array of the 20 latest temps and times
- * @return {array} [[time, temp]]
+ * [realtime description]
+ * @param  {[type]} mode [description]
+ * @return {[type]}      [description]
  */
-var temp_realtime = function () {
-    var latest_temp = [];
+var realtime = function (mode) {
+    var latest = [];
 
     return new Promise(function (resolve, reject) {
         connect(function (db) {
-            var cursor = db.collection('temp').find({  }).limit(20);
+            var cursor = db.collection(mode).find({  }).limit(20);
 
             cursor.each(function (err, doc) {
                 if (err) {
@@ -80,13 +101,20 @@ var temp_realtime = function () {
                 assert.equal(err, null);
 
                 if (doc !== null) {
-                    // Push [hh:mm:ss, temp] to latest_temp
-                    latest_temp.push([doc.time.getHours() + ':' +
-                                      doc.time.getMinutes() + ':' +
-                                      doc.time.getSeconds(),
-                                      doc.temp]);
+                    // Push [hh:mm:ss, temp|load] to latest
+                    if (mode.toLowerCase() == 'temp') {
+                        latest.push([doc.time.getHours() + ':' +
+                                          doc.time.getMinutes() + ':' +
+                                          doc.time.getSeconds(),
+                                          doc.temp]);
+                    } else if (mode.toLowerCase() == 'load') {
+                        latest.push([doc.time.getHours() + ':' +
+                                          doc.time.getMinutes() + ':' +
+                                          doc.time.getSeconds(),
+                                          doc.load]);
+                    }
                 } else {
-                    resolve(latest_temp);
+                    resolve(latest);
                     db.close();
                 }
             });
@@ -142,76 +170,15 @@ var temp_minute = function () {
     });
 };
 
-// Loads
-
-/**
- * Inserts a load entry
- * @param  {float} Load The load in a float e.g. 0.25 == 25% load
- * @return {null}  Promise with either err or true
- */
-var insert_load = function (load) {
-    return new Promise(function (resolve, reject) {
-        connect(function (db) {
-            db.collection('load').insertOne({
-                "time": new Date(),
-                "load": load
-            }, function (err, result) {
-                if (err) {
-                    reject(err);
-                }
-
-                assert.equal(err, null);
-
-                db.close();
-                resolve(load);
-            });
-        });
-    });
-};
-
-/**
- * Promise with the latest_temp array of the 20 latest temps and times
- * @return {array} [[time, temp]]
- */
-var load_realtime = function () {
-    var latest_load = [];
-
-    return new Promise(function(resolve, reject) {
-        connect(function (db) {
-            var cursor = db.collection('load').find({  }).limit(20);
-
-            cursor.each(function (err, doc) {
-                if (err) {
-                    reject(err);
-                }
-
-                assert.equal(err, null);
-
-                if (doc !== null) {
-                    // Push [hh:mm:ss, load] to latest_load
-                    latest_load.push([doc.time.getHours() + ':' +
-                                      doc.time.getMinutes() + ':' +
-                                      doc.time.getSeconds(),
-                                      doc.load]);
-                } else {
-                    db.close();
-                    resolve(latest_load);
-                }
-            });
-        });
-    });
-};
-
 // Exports
 
 module.exports = {
-    // Insert
-    insert_temp: insert_temp,
-    insert_load: insert_load,
-
-    // Realtime
-    temp_realtime: temp_realtime,
-    load_realtime: load_realtime
+    insert: insert,
+    realtime: realtime
 };
 
-temp_minute().then(function (result) {console.dir(result, result.length);}, function (err) {console.log(err);});
+// Testing
+
+realtime('temp').then(function (res) {console.log(res);}, function (err) {console.log(err);});
+// insert('temp', 35).then(function (res) {console.log(res);}, function (err) {console.log(err);});
+// temp_minute().then(function (result) {console.dir(result, result.length);}, function (err) {console.log(err);});
