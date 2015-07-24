@@ -112,9 +112,9 @@ var realtime = function (mode) {
                 if (doc !== null) {
                     // Push [hh:mm:ss, temp|load] to latest
                     latest.push([doc.time.getHours() + ':' +
-                                      doc.time.getMinutes() + ':' +
-                                      doc.time.getSeconds(),
-                                      (doc.temp || doc.load)]);
+                                 doc.time.getMinutes() + ':' +
+                                 doc.time.getSeconds(),
+                                 (doc.temp || doc.load)]);
                 } else {
                     resolve(latest);
                     db.close();
