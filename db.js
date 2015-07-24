@@ -67,7 +67,7 @@ function insertCallback (err, result, db, resolve, reject) {
 /**
  * Insert an entry into the db
  * @param  {String}   mode  either 'temp' or 'load'; what kind of entry
- * @param  {Float}    value the value to insert. float
+ * @param  {String}    value the value to insert.
  * @return {Function} A promise with the value passed in
  */
 var insert = function (mode, value) {
@@ -76,12 +76,12 @@ var insert = function (mode, value) {
             if (mode.toLowerCase() == 'temp') {
                 db.collection('temp').insertOne({
                     "time": new Date(),
-                    "temp": value
+                    "temp": (parseFloat(value))
                 }, function(err, result){insertCallback(err, result, db, resolve, reject);});
             } else if (mode.toLowerCase() == 'load') {
                 db.collection('load').insertOne({
                     "time": new Date(),
-                    "load": value
+                    "load": ((parseFloat(value) / 4) * 100)
                 }, function(err, result){insertCallback(err, result, db, resolve, reject);});
             } else {
                 db.close();

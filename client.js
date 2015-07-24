@@ -5,6 +5,11 @@
 var exec = require('child_process').exec;
 var Promise = require('promise');
 
+// Regex and stuff
+var network_re = /\(([\d]+\.[\d]+\ [\w]+)\)/;
+var network_down_str = "ifconfig | grep 'RX bytes' -m 1".split('TX')[0];
+var network_up_str = "ifconfig | grep 'RX bytes' -m 1".split('TX')[1];
+
 // Commands
 
 /**
@@ -44,17 +49,6 @@ var getcommand = function (re, command) {
         });
     });
 };
-
-// RegExp variables
-var cpuload_re = /average.\ ([0-9]+\.[0-9]+)+/;
-var cpuload_str = 'uptime';
-
-var cputemp_re = /Physical\ id\ 0\:[\s]*\+([\d]+\.[\d])../;
-var cputemp_str = "sensors | grep 'Physical id 0:'";
-
-var network_re = /\(([\d]+\.[\d]+\ [\w]+)\)/;
-var network_down_str = "ifconfig | grep 'RX bytes' -m 1".split('TX')[0];
-var network_up_str = "ifconfig | grep 'RX bytes' -m 1".split('TX')[1];
 
 /**
  * Gets the drivestats, please do not touch. Will break on contact. FRAGILE
