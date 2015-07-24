@@ -1,11 +1,32 @@
 doctype html
-html
+html(ng-app='server-status-remake' ng-controller='main')
     head
-        title!= title
+        title {{ temp }}&deg;C | {{ comp_name }}
+        
         meta(charset='utf-8')
+        meta(name='viewport' content='width=device-width, initial-scale=1')
+        
+        // Bootstrap
+        link(rel='stylesheet' href='stylesheets/bootstrap.css')
+        link(rel='stylesheet' href='stylesheets/bootswatch.css')
     body
-        p testing 123
+        div(class='container')
+            div(class='main')
+                h1 {{ comp_name }} | 
+                    span(class='small') {{ temp }}&deg;C
+                
+                p {{ uptime }}
+            
+            div(class='row')
+                div(class='col-sm-6')
+                    div(class='tempplot')
+                div(class='col-sm-6')
+                    div(class='loadplot')
         
         // JavaScripts
         script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js')
         script(src='https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js')
+        script(src="http://code.highcharts.com/highcharts.js")
+        script(src="http://code.highcharts.com/modules/exporting.js")
+        script(src='scripts/ang.js')
+        script(src='scripts/site.js')
