@@ -293,6 +293,6 @@ module.exports = {
 
 // day('temp').then(function (res) {console.log(res);}, function (err) {console.log(err);});
 // hour('temp').then(function (res) {console.log(res);}, function (err) {console.log(err);});
-realtime('temp').then(function (res) {console.log(res);}, function (err) {console.log(err);});
+// realtime('temp').then(function (res) {console.log(res);}, function (err) {console.log(err);});
 // insert('temp', 35).then(function (res) {console.log(res);}, function (err) {console.log(err);});
 // minute('temp').then(function (result) {console.dir(result, result.length);}, function (err) {console.log(err);});
