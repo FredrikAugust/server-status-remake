@@ -11,7 +11,7 @@ var Promise = require('promise');
  * Gets the uptime for the server
  * @return {String} The uptime in pretty format
  */
-function uptime() {
+var uptime = function () {
     return new Promise(function (resolve, reject) {
         exec('uptime -p', function (err, stdout, stderr) {
             if (!err) {
@@ -21,7 +21,7 @@ function uptime() {
             }
         });
     });
-}
+};
 
 /**
  * Gets the output from a regex performed on a unix command
@@ -29,7 +29,7 @@ function uptime() {
  * @param  {String} command The command to be used
  * @return {Object}         Promise with either error string or the value
  */
-function getcommand(re, command) {
+var getcommand = function (re, command) {
     return new Promise(function (resolve, reject) {
         exec(command, function (err, stdout, stderr) {
             if (!err) {
@@ -43,7 +43,7 @@ function getcommand(re, command) {
             }
         });
     });
-}
+};
 
 // RegExp variables
 var cpuload_re = /average.\ ([0-9]+\.[0-9]+)+/;
@@ -60,7 +60,7 @@ var network_up_str = "ifconfig | grep 'RX bytes' -m 1".split('TX')[1];
  * Gets the drivestats, please do not touch. Will break on contact. FRAGILE
  * @return {Object} Returns a promise
  */
-function drivestats() {
+var drivestats = function () {
     var stats = [];
 
     var create = new Promise(function (resolve, reject) {
@@ -92,4 +92,29 @@ function drivestats() {
             reject(err);
         });
     });
-}
+};
+
+var memstats = function () {
+    var re = /[\d\.]+\w/g;
+    var result = [];
+
+    return new Promise(function(resolve, reject) {
+        exec("free -h", function (err, stdout, stderr) {
+            if (err) {
+                reject(err);
+            }
+
+            while ((result = re.exec(stdout)) !== null) {console.log(result[0]);}
+
+            resolve(result);
+        });
+    });
+};
+
+// Exports
+module.exports = {
+    uptime: uptime,
+    getcommand: getcommand,
+    drivestats: drivestats,
+    memstats: memstats
+};
