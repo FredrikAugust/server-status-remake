@@ -4,6 +4,7 @@
 // Imports
 var mongo = require('mongodb').MongoClient;
 var assert = require('assert');
+var Promise = require('promise');
 
 // Mongo config
 var PORT = 27017 || process.env.MONGOPORT;

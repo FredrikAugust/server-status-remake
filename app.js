@@ -3,7 +3,9 @@
 
 // Imports
 var express = require('express');
+var Promise = require('promise');
 var db = require('./db.js');
+
 
 // Create app
 var app = express();
