@@ -17,7 +17,9 @@ The project is built using **angular (js)** for front-end, **express (js)** for 
 
 ## Usage
 
-To start the website go to the root folder and type `foreman start`. This will start both the loop and the web server. To stop both press `ctrl+c`.
+To start the website go to the root folder and type `[sudo] foreman start`. 
+To start the database run `mongod`, this is required for the program to work.
+This will start both the loop and the web server. To stop both press `ctrl+c`.
 
 ## TODO
 
