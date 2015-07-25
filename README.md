@@ -18,7 +18,7 @@ The project is built using **angular (js)** for front-end, **express (js)** for 
 
 ## Usage
 
-To start the website go to the root folder type `mongod`, open a new tab and type `nodejs app.js`, and then open a third and type `python loop.py`.
+Type `nodejs app.js`, and then open a second tab and type `python loop.py`.
 
 ## TODO
 
