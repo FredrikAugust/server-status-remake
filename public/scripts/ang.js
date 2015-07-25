@@ -4,17 +4,75 @@
 var app = angular.module('server-status-remake', []);
 
 app.controller('main', ['$scope', '$http', function ($scope, $http) {
+	// Current temperature
 	$http({
 		method: 'GET',
 		url: '/realtime/temp'
 	}).success(function (data, status) {
 		$scope.temp = data[0][1];
 	}).error(function (data, status) {
+		$scope.temp = 0;
 		return new Error('Could not retrieve current temp.');
 	});
 
-    $scope.comp_name = 'undefined';
-    $scope.uptime = '42 minutes';
+	// Current CPU load
+	$http({
+		method: 'GET',
+		url: '/realtime/load'
+	}).success(function (data, status) {
+		$scope.load = data[0][1];
+	}).error(function (data, status) {
+		$scope.load = 0;
+		return new Error('Could not retrieve current load.');
+	});
+
+	// Network up and down
+	$http({
+		method: 'GET',
+		url: '/network'
+	}).success(function (data, status) {
+		$scope.down = data[0];
+		$scope.up = data[1];
+	}).error(function (data, status) {
+		$scope.down = 0;
+		$scope.up = 0;
+		return new Error('Could not retrieve current network data.');
+	});
+
+	// Drives
+	$http({
+		method: 'GET',
+		url: '/drive'
+	}).success(function (data, status) {
+		$scope.drives = data;
+	}).error(function (data, status) {
+		$scope.drives = [[0,0,0,0,0],
+						[0,0,0,0,0]];
+		return new Error('Could not retrieve current drive data.');
+	});
+
+	// Hostname
+	$http({
+		method: 'GET',
+		url: '/hostname'
+	}).success(function (data, status) {
+		$scope.comp_name = data;
+	}).error(function (data, status) {
+		$scope.comp_name = 'unknown';
+		return new Error('Could not retrieve current hostname data.');
+	});
+
+	// Uptime
+	$http({
+		method: 'GET',
+		url: '/uptime'
+	}).success(function (data, status) {
+		$scope.uptime = data;
+	}).error(function (data, status) {
+		$scope.comp_name = '0 min';
+		return new Error('Could not retrieve current uptime data.');
+	});
+
     $scope.renderChart = function (mode, time) {
     	$http({
     		method: 'GET',
@@ -24,8 +82,8 @@ app.controller('main', ['$scope', '$http', function ($scope, $http) {
     			y = [];
 
     		data.forEach(function(element) {
-				x.push(element[0]);
-				y.push(parseFloat(element[1].toFixed(1)));
+				x.unshift(element[0]);
+				y.unshift(parseFloat(element[1].toFixed(1)));
 			});
 
 			$('.' + mode + 'plot').highcharts({

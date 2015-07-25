@@ -50,18 +50,51 @@ app.get('/day/:mode', function (req, res) {
     });
 });
 
-// GET: Exec command client
-app.get('/getcommand/:regex/:command', function (req, res) {
-    client.getcommand(new RegExp(req.params.regex, 'i'), req.params.command).then(function (result) {
+// Regex
+var network_re = /\(([\d]+\.[\d]+\ [\w]+)\)/;
+var network_down_str = "ifconfig | grep 'RX bytes' -m 1".split('TX')[0];
+var network_up_str = "ifconfig | grep 'RX bytes' -m 1".split('TX')[1];
+
+// GET: Network up and down
+app.get('/network', function (req, res) {
+    var resultArray = [];
+
+    client.getcommand(network_re, network_down_str).then(function (result) {
+        resultArray.push(result);
+        console.log(result);
+
+        client.getcommand(network_re, network_up_str).then(function (result2) {
+            resultArray.push(result2);
+            res.send(resultArray);
+        }, function (err2) {
+            res.send(err2);
+        });
+    }, function (err) {
+        res.send(err);
+    });
+});
+
+// GET: Drive stats
+app.get('/drive', function (req, res) {
+    client.drivestats().then(function (result) {
         res.send(result);
     }, function (err) {
         res.send(err);
     });
 });
 
-// GET: Get string uptime
+// GET: Hostname
+app.get('/hostname', function (req, res) {
+    client.getcommand(/([\s\S]*)/, 'hostname').then(function (result) {
+        res.send(result);
+    }, function (err) {
+        res.send(err);
+    });
+});
+
+// GET: Uptime
 app.get('/uptime', function (req, res) {
-    client.uptime().then(function (result) {
+    client.getcommand(/([\s\S]*)/, 'uptime -p').then(function (result) {
         res.send(result);
     }, function (err) {
         res.send(err);

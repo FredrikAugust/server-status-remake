@@ -5,28 +5,7 @@
 var exec = require('child_process').exec;
 var Promise = require('promise');
 
-// Regex and stuff
-var network_re = /\(([\d]+\.[\d]+\ [\w]+)\)/;
-var network_down_str = "ifconfig | grep 'RX bytes' -m 1".split('TX')[0];
-var network_up_str = "ifconfig | grep 'RX bytes' -m 1".split('TX')[1];
-
 // Commands
-
-/**
- * Gets the uptime for the server
- * @return {String} The uptime in pretty format
- */
-var uptime = function () {
-    return new Promise(function (resolve, reject) {
-        exec('uptime -p', function (err, stdout, stderr) {
-            if (!err) {
-                resolve(stdout);
-            } else {
-                reject(err);
-            }
-        });
-    });
-};
 
 /**
  * Gets the output from a regex performed on a unix command
@@ -107,7 +86,6 @@ var memstats = function () {
 
 // Exports
 module.exports = {
-    uptime: uptime,
     getcommand: getcommand,
     drivestats: drivestats,
     memstats: memstats

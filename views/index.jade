@@ -13,8 +13,7 @@ html(ng-app='server-status-remake' ng-controller='main' ng-init='time_temp = "re
     body
         div(class='container')
             div(class='main')
-                h1 {{ comp_name }} |&nbsp;
-                    span(class='small') {{ temp }}&deg;C
+                h1 {{ comp_name }}
 
                 p {{ uptime }}
 
@@ -22,6 +21,8 @@ html(ng-app='server-status-remake' ng-controller='main' ng-init='time_temp = "re
 
             div(class='row')
                 div(class='col-sm-6')
+                    p(class='lead') Current temprature:&nbsp;
+                        b {{ temp }}&deg;C
                     div(class='tempplot')
                     br
                     span(class='btn btn-default' ng-class="time_temp=='realtime' ? 'active' : ''" ng-click="time_temp = 'realtime'; renderChart('temp', 'realtime')") Realtime
@@ -29,6 +30,8 @@ html(ng-app='server-status-remake' ng-controller='main' ng-init='time_temp = "re
                     span(class='btn btn-default' ng-class="time_temp=='hour' ? 'active' : ''" ng-click="time_temp = 'hour'; renderChart('temp', 'hour')") Hour
                     span(class='btn btn-default' ng-class="time_temp=='day' ? 'active' : ''" ng-click="time_temp = 'day'; renderChart('temp', 'day')") Day
                 div(class='col-sm-6')
+                    p(class='lead') Current CPU Load:&nbsp;
+                        b {{ load }}%
                     div(class='loadplot')
                     br
                     span(class='btn btn-default' ng-class="time_load=='realtime' ? 'active' : ''" ng-click="time_load = 'realtime'; renderChart('load', 'realtime')") Realtime
@@ -37,10 +40,33 @@ html(ng-app='server-status-remake' ng-controller='main' ng-init='time_temp = "re
                     span(class='btn btn-default' ng-class="time_load=='day' ? 'active' : ''" ng-click="time_load = 'day'; renderChart('load', 'day')") Day
             hr
             div(class='row')
-                div(class='col-sm-6')
-                    p 123
-                div(class='col-sm-6')
-                    p 123
+                div(class='col-sm-8')
+                    h2 Partition stats
+                    table(class='table table-hover')
+                        thead
+                            tr
+                                th Partition
+                                th Total
+                                th Used
+                                th Available
+                                th Mount Point
+                        tbody
+                            tr(ng-repeat='drive in drives')
+                                td(ng-repeat='value in drive')
+                                    {{ value }}
+
+
+                div(class='col-sm-4')
+                    h2 Network
+                    span(class='glyphicon glyphicon-upload') &nbsp;
+                    {{ up }}
+                    br
+                    span(class='glyphicon glyphicon-download') &nbsp;
+                    {{ down }}
+
+
+            footer(class='footer')
+                hr
 
         // JavaScripts
         script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js')
