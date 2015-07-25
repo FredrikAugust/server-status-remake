@@ -32,12 +32,10 @@ var WEEKDAYS = [
 var connect = function (func) {
     mongo.connect(URL, function (err, db) {
         if (err) {
-            console.log(err);
+            throw err;
         }
 
         assert.equal(null, err);
-
-        console.log('Connected to server.');
         func(db);
     });
 };
@@ -287,21 +285,3 @@ module.exports = {
     hour: hour,
     day: day
 };
-
-// Testing / Seeding
-
-// day('temp').then(function (res) {console.log(res);}, function (err) {console.log(err);});
-// hour('temp').then(function (res) {console.log(res);}, function (err) {console.log(err);});
-// realtime('temp').then(function (res) {console.log(res);}, function (err) {console.log(err);});
-// insert('temp', 30).then(function (res) {console.log(res);}, function (err) {console.log(err);});
-// insert('temp', 28).then(function (res) {console.log(res);}, function (err) {console.log(err);});
-// insert('temp', 27).then(function (res) {console.log(res);}, function (err) {console.log(err);});
-// insert('temp', 19).then(function (res) {console.log(res);}, function (err) {console.log(err);});
-// insert('temp', 25).then(function (res) {console.log(res);}, function (err) {console.log(err);});
-
-// insert('load', 0.05).then(function (res) {console.log(res);}, function (err) {console.log(err);});
-// insert('load', 0.1).then(function (res) {console.log(res);}, function (err) {console.log(err);});
-// insert('load', 0.15).then(function (res) {console.log(res);}, function (err) {console.log(err);});
-// insert('load', 0.09).then(function (res) {console.log(res);}, function (err) {console.log(err);});
-// insert('load', 0.02).then(function (res) {console.log(res);}, function (err) {console.log(err);});
-// // minute('temp').then(function (result) {console.dir(result, result.length);}, function (err) {console.log(err);});

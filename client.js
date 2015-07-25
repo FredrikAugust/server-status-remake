@@ -77,7 +77,7 @@ var memstats = function () {
                 reject(err);
             }
 
-            while ((result = re.exec(stdout)) !== null) {console.log(result[0]);}
+            while ((result = re.exec(stdout)) !== null) {}
 
             resolve(result);
         });

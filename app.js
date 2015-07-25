@@ -61,7 +61,6 @@ app.get('/network', function (req, res) {
 
     client.getcommand(network_re, network_down_str).then(function (result) {
         resultArray.push(result);
-        console.log(result);
 
         client.getcommand(network_re, network_up_str).then(function (result2) {
             resultArray.push(result2);
