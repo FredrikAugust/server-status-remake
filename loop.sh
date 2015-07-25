@@ -1,6 +1,6 @@
 #!/bin/bash
 
-while [true]
+while :
 do
 	nodejs loop.js
 	sleep 5
