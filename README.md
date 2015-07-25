@@ -11,6 +11,8 @@ The project is built using **angular (js)** for front-end, **express (js)** for 
 * Make sure `foreman` is installed
     - If not; look [here](http://theforeman.org/manuals/1.8/#2.1Installation)
 * Go to the root dir and run `npm install`
+* Make sure you have `mongodb` installed
+    - If not; look [here](https://www.mongodb.org/)
 * Now you should be good to go; look under usage for how to use the thing
 
 ## Usage
