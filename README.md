@@ -1,22 +1,34 @@
 # Remake of @Tijndagamer's "_Server Status_" page.
 
+## Description
+
 As the last version I made was insecure, dysfunctional, badly optimized and in general quite bad I decided to remake the entire project, this time featuring semi-good code.
 
 The project is built using **angular (js)** for front-end, **express (js)** for back-end and **highcharts (js)** for the graphs. I might add more stuff later, but this is all for now. Please notify me if I forgot to add something here.
 
+## Installation
 
-#TODO
+* Make sure `foreman` is installed
+    - If not; look [here](http://theforeman.org/manuals/1.8/#2.1Installation)
+* Go to the root dir and run `npm install`
+* Now you should be good to go; look under usage for how to use the thing
 
-- Add Night mode
-- Make daily graph average over whole day
-- Make hour graph average over whole hour
-- Display uptime
-- display time & date when the information was retrieved
+## Usage
+
+To start the website go to the root folder and type `foreman start`. This will start both the loop and the web server. To stop both press `ctrl+c`.
+
+## TODO
+
+- ~~Add Night mode~~
+- ~~Make daily graph average over whole day~~
+- ~~Make hour graph average over whole hour~~
+- ~~Display uptime~~
+- Display time & date when the information was retrieved
 - CPU load bar
-- Network stats
+- ~~Network stats~~
 - Memory stats
 - Memory bar
-- Drive stats
+- ~~Drive stats~~
 
 _'Kinda like [this](https://lh5.googleusercontent.com/-yvvO2xzXEzI/VbEtV6jgiTI/AAAAAAAAAVw/NTlSChaSJkk/w1111-h865-no/2015-07-23.png) and [this](https://lh5.googleusercontent.com/-csIi1eDTj6U/VbEtWjCi0PI/AAAAAAAAAV4/GJch_n4Rr-4/w1070-h865-no/2015-07-23.png)._
 _~ @Tijndagamer_
