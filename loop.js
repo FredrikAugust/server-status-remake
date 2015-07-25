@@ -13,15 +13,19 @@ var cputemp_re = /Physical\ id\ 0\:[\s]*\+([\d]+\.[\d])../;
 var cputemp_str = "sensors | grep 'Physical id 0:'";
 
 while (true) {
+    console.log('Inserting temp');
     db.insert('temp', client.getcommand(cputemp_re, cputemp_str)).then(function (result) {
         console.log('Inserted: ' + result);
+        sleep(5);
     }, function (err) {
         throw err;
     });
+
+    console.log('Inserting load');
     db.insert('load', client.getcommand(cpuload_re, cpuload_str)).then(function (result) {
         console.log('Inserted: ' + result);
+        sleep(5);
     }, function (err) {
         throw err;
     });
-    sleep(5);
 }
