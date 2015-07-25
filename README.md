@@ -13,13 +13,12 @@ The project is built using **angular (js)** for front-end, **express (js)** for 
 * Go to the root dir and run `npm install`
 * Make sure you have `mongodb` installed
     - If not; look [here](https://www.mongodb.org/)
+* Make sure you have `python` 2.x installed
 * Now you should be good to go; look under usage for how to use the thing
 
 ## Usage
 
-To start the website go to the root folder and type `[sudo] foreman start`. 
-To start the database run `mongod`, this is required for the program to work.
-This will start both the loop and the web server. To stop both press `ctrl+c`.
+To start the website go to the root folder type `mongod`, open a new tab and type `nodejs app.js`, and then open a third and type `python loop.py`.
 
 ## TODO
 
