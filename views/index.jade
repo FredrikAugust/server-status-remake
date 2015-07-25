@@ -67,6 +67,8 @@ html(ng-app='server-status-remake' ng-controller='main' ng-init='time_temp = "re
 
             footer(class='footer')
                 hr
+                p Last pulled:&nbsp;
+                    b {{ pulled }}
 
         // JavaScripts
         script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js')
