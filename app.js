@@ -23,15 +23,6 @@ app.get('/realtime/:mode', function (req, res) {
     });
 });
 
-// GET: Exec command client
-app.get('/getcommand/:regex/:command', function (req, res) {
-    client.getcommand(new RegExp(req.params.regex, 'i'), req.params.command).then(function (result) {
-        res.send(result);
-    }, function (err) {
-        res.send(err);
-    });
-});
-
 // GET: Get the 20 last average minute temps or loads
 app.get('/minute/:mode', function (req, res) {
     db.minute(req.params.mode).then(function (result) {
@@ -53,6 +44,15 @@ app.get('/hour/:mode', function (req, res) {
 // GET: Get the 7 last average day temps or loads
 app.get('/day/:mode', function (req, res) {
     db.day(req.params.mode).then(function (result) {
+        res.send(result);
+    }, function (err) {
+        res.send(err);
+    });
+});
+
+// GET: Exec command client
+app.get('/getcommand/:regex/:command', function (req, res) {
+    client.getcommand(new RegExp(req.params.regex, 'i'), req.params.command).then(function (result) {
         res.send(result);
     }, function (err) {
         res.send(err);

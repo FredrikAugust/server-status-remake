@@ -112,9 +112,7 @@ var realtime = function (mode) {
 
                 if (doc !== null) {
                     // Push [hh:mm:ss, temp|load] to latest
-                    latest.push([doc.time.getHours() + ':' +
-                                 doc.time.getMinutes() + ':' +
-                                 doc.time.getSeconds(),
+                    latest.push([doc.time.toTimeString().substr(0, 8),
                                  (doc.temp || doc.load)]);
                 } else {
                     resolve(latest);
@@ -151,15 +149,15 @@ var minute = function (mode) {
                 if (doc !== null) {
                     if (count <= 20 && doc.time.getMinutes() == prev) {
                         // Push [hh:mm:ss, temp|load] to minutes
-                        minutes[count] = [doc.time.getHours() + ':' + doc.time.getMinutes(),
-                                               (minutes[count][1] + (doc.temp || doc.load)) / 2];
+                        minutes[count] = [doc.time.toTimeString().substr(0, 5),
+                                          (minutes[count][1] + (doc.temp || doc.load)) / 2];
                         count_internal++;
                     } else if (doc.time.getMinutes() != prev) {
                         count++;
                         prev = doc.time.getMinutes();
                         // Push [hh:mm:ss, temp|load] to minutes
-                        minutes[count] = [doc.time.getHours() + ':' + doc.time.getMinutes(),
-                                               0 + (doc.temp || doc.load)];
+                        minutes[count] = [doc.time.toTimeString().substr(0,5),
+                                          0 + (doc.temp || doc.load)];
                         count_internal = 2;
                     } else {
                         resolve(minutes);
@@ -202,7 +200,7 @@ var hour = function(mode) {
                         // Push [hh:mm:ss, temp|load] to hours
                         hours[count] = [WEEKDAYS[doc.time.getDay()] + ' ' +
                                         doc.time.getDate() + ', ' +
-                                        doc.time.getHours() + ':00',
+                                        doc.time.toTimeString().substr(0,2) + ':00',
                                         (hours[count][1] + (doc.temp || doc.load)) / 2];
                         count_internal++;
                     } else if (doc.time.getHours() != prev) {
@@ -211,7 +209,7 @@ var hour = function(mode) {
                         // Push [hh:mm:ss, temp|load] to hours
                         hours[count] = [WEEKDAYS[doc.time.getDay()] + ' ' +
                                         doc.time.getDate() + ', ' +
-                                        doc.time.getHours() + ':00',
+                                        doc.time.toTimeString().substr(0,2) + ':00',
                                         0 + (doc.temp || doc.load)];
                         count_internal = 2;
                     } else {
@@ -290,10 +288,20 @@ module.exports = {
     day: day
 };
 
-// Testing
+// Testing / Seeding
 
 // day('temp').then(function (res) {console.log(res);}, function (err) {console.log(err);});
 // hour('temp').then(function (res) {console.log(res);}, function (err) {console.log(err);});
 // realtime('temp').then(function (res) {console.log(res);}, function (err) {console.log(err);});
-// insert('temp', 35).then(function (res) {console.log(res);}, function (err) {console.log(err);});
-// minute('temp').then(function (result) {console.dir(result, result.length);}, function (err) {console.log(err);});
+// insert('temp', 30).then(function (res) {console.log(res);}, function (err) {console.log(err);});
+// insert('temp', 28).then(function (res) {console.log(res);}, function (err) {console.log(err);});
+// insert('temp', 27).then(function (res) {console.log(res);}, function (err) {console.log(err);});
+// insert('temp', 19).then(function (res) {console.log(res);}, function (err) {console.log(err);});
+// insert('temp', 25).then(function (res) {console.log(res);}, function (err) {console.log(err);});
+
+// insert('load', 0.05).then(function (res) {console.log(res);}, function (err) {console.log(err);});
+// insert('load', 0.1).then(function (res) {console.log(res);}, function (err) {console.log(err);});
+// insert('load', 0.15).then(function (res) {console.log(res);}, function (err) {console.log(err);});
+// insert('load', 0.09).then(function (res) {console.log(res);}, function (err) {console.log(err);});
+// insert('load', 0.02).then(function (res) {console.log(res);}, function (err) {console.log(err);});
+// // minute('temp').then(function (result) {console.dir(result, result.length);}, function (err) {console.log(err);});

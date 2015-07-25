@@ -1,0 +1,8 @@
+/**
+ * Custom styling; because I'm too cool for plain bootstrap
+ */
+
+span {
+	display: inline-block;
+	margin-right: 5px;
+}

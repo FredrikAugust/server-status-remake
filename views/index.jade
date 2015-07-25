@@ -1,32 +1,50 @@
 doctype html
-html(ng-app='server-status-remake' ng-controller='main')
+html(ng-app='server-status-remake' ng-controller='main' ng-init='time_temp = "realtime"; time_load = "realtime"; renderChart("temp", "realtime"); renderChart("load", "realtime")')
     head
         title {{ temp }}&deg;C | {{ comp_name }}
-        
+
         meta(charset='utf-8')
         meta(name='viewport' content='width=device-width, initial-scale=1')
-        
+
         // Bootstrap
         link(rel='stylesheet' href='stylesheets/bootstrap.css')
         link(rel='stylesheet' href='stylesheets/bootswatch.css')
+        link(rel='stylesheet' href='stylesheets/style.css')
     body
         div(class='container')
             div(class='main')
-                h1 {{ comp_name }} | 
+                h1 {{ comp_name }} |&nbsp;
                     span(class='small') {{ temp }}&deg;C
-                
+
                 p {{ uptime }}
-            
+
+            hr
+
             div(class='row')
                 div(class='col-sm-6')
                     div(class='tempplot')
+                    br
+                    span(class='btn btn-default' ng-class="time_temp=='realtime' ? 'active' : ''" ng-click="time_temp = 'realtime'; renderChart('temp', 'realtime')") Realtime
+                    span(class='btn btn-default' ng-class="time_temp=='minute' ? 'active' : ''" ng-click="time_temp = 'minute'; renderChart('temp', 'minute')") Minute
+                    span(class='btn btn-default' ng-class="time_temp=='hour' ? 'active' : ''" ng-click="time_temp = 'hour'; renderChart('temp', 'hour')") Hour
+                    span(class='btn btn-default' ng-class="time_temp=='day' ? 'active' : ''" ng-click="time_temp = 'day'; renderChart('temp', 'day')") Day
                 div(class='col-sm-6')
                     div(class='loadplot')
-        
+                    br
+                    span(class='btn btn-default' ng-class="time_load=='realtime' ? 'active' : ''" ng-click="time_load = 'realtime'; renderChart('load', 'realtime')") Realtime
+                    span(class='btn btn-default' ng-class="time_load=='minute' ? 'active' : ''" ng-click="time_load = 'minute'; renderChart('load', 'minute')") Minute
+                    span(class='btn btn-default' ng-class="time_load=='hour' ? 'active' : ''" ng-click="time_load = 'hour'; renderChart('load', 'hour')") Hour
+                    span(class='btn btn-default' ng-class="time_load=='day' ? 'active' : ''" ng-click="time_load = 'day'; renderChart('load', 'day')") Day
+            hr
+            div(class='row')
+                div(class='col-sm-6')
+                    p 123
+                div(class='col-sm-6')
+                    p 123
+
         // JavaScripts
         script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js')
         script(src='https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js')
         script(src="http://code.highcharts.com/highcharts.js")
         script(src="http://code.highcharts.com/modules/exporting.js")
         script(src='scripts/ang.js')
-        script(src='scripts/site.js')
