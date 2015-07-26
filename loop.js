@@ -5,7 +5,7 @@ var client = require('./client.js');
 var db = require('./db.js');
 
 // RegExp variables
-var cpuload_re = /\:\ ([0-9]+\.[0-9]+)/;
+var cpuload_re = /\:\ ([0-9]+\.[0-9]+|[0-9]+\,[0-9]+)/;
 var cpuload_str = 'uptime';
 
 var cputemp_re = /Physical\ id\ 0\:[\s]*\+([\d]+\.[\d])../;

@@ -51,7 +51,7 @@ app.get('/day/:mode', function (req, res) {
 });
 
 // Regex
-var network_re = /\(([\d]+\.[\d]+\ [\w]+)\)/;
+var network_re = /\(([\d]+\.[\d]+\ [\w]+|[\d]+\,[\d]+\ [\w]+)\)/;
 var network_down_str = "ifconfig | grep 'RX bytes' -m 1".split('TX')[0];
 var network_up_str = "ifconfig | grep 'RX bytes' -m 1".split('TX')[1];
 
