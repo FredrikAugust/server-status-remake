@@ -2,6 +2,6 @@
 
 while :
 do
-	nodejs loop.js
+	node loop.js
 	sleep 5
 done

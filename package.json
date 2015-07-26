@@ -28,6 +28,7 @@
     "express": "^4.13.1",
     "jade": "^1.11.0",
     "mongodb": "^2.0.39",
-    "promise": "^7.0.3"
+    "promise": "^7.0.3",
+    "underscore": "^1.8.3"
   }
 }

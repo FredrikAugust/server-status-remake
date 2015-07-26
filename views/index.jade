@@ -54,16 +54,16 @@ html(ng-app='server-status-remake' ng-controller='main' ng-init='time_temp = "re
                         tbody
                             tr(ng-repeat='drive in drives')
                                 td(ng-repeat='value in drive')
-                                    {{ value }}
+                                    span {{ value }}
 
 
                 div(class='col-sm-4')
                     h2 Network
-                    span(class='glyphicon glyphicon-upload') &nbsp;
-                    {{ up }}
+                    span(class='glyphicon glyphicon-upload')
+                    span {{ up }}
                     br
-                    span(class='glyphicon glyphicon-download') &nbsp;
-                    {{ down }}
+                    span(class='glyphicon glyphicon-download')
+                    span {{ down }}
 
             //- TODO: Add row and column for table with memory data
             //- Use ng-repeat to display the values; looks cooler

@@ -89,7 +89,7 @@ app.controller('main', ['$scope', '$http', function ($scope, $http) {
 
     		data.forEach(function(element) {
 				x.unshift(element[0]);
-				y.unshift(parseFloat(element[1].toFixed(1)));
+				y.unshift(parseFloat(element[1].toFixed(2)));
 			});
 
 			$('.' + mode + 'plot').highcharts({
