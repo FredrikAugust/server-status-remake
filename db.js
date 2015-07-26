@@ -80,7 +80,7 @@ var insert = function (mode, value) {
             } else if (mode.toLowerCase() == 'load') {
                 db.collection('load').insertOne({
                     "time": new Date(),
-                    "load": ((parseFloat(value) / 4) * 100)
+                    "load": ((parseFloat(value.replace(',', '.')) / 4) * 100)
                 }, function(err, result){insertCallback(err, result, db, resolve, reject);});
                 console.log(value);
             } else {
