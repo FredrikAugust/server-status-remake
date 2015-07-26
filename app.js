@@ -100,18 +100,22 @@ app.get('/uptime', function (req, res) {
     });
 });
 
+// GET: Memory stats
+// TODO: Implement memory get route
+// Take info from client.memstats()
+
 // Index route
 app.get('/', function (req, res) {
     res.render('index');
 });
 
 // Settings
-var PORT = process.env.PORT | 3000;
+var PORT = process.env.PORT || 3000;
 
 // Server
 var server = app.listen(PORT, function () {
     var host = server.address().address;
     var port = server.address().port;
 
-    console.log('Server is listening on http://%s:%s', host, port);
+    console.log('Listening on http://%s:%s', host, port);
 });

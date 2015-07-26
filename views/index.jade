@@ -49,6 +49,7 @@ html(ng-app='server-status-remake' ng-controller='main' ng-init='time_temp = "re
                                 th Total
                                 th Used
                                 th Available
+                                th Percentage Used
                                 th Mount Point
                         tbody
                             tr(ng-repeat='drive in drives')
@@ -64,6 +65,8 @@ html(ng-app='server-status-remake' ng-controller='main' ng-init='time_temp = "re
                     span(class='glyphicon glyphicon-download') &nbsp;
                     {{ down }}
 
+            //- TODO: Add row and column for table with memory data
+            //- Use ng-repeat to display the values; looks cooler
 
             footer(class='footer')
                 hr

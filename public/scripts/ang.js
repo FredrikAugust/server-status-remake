@@ -4,6 +4,12 @@
 var app = angular.module('server-status-remake', []);
 
 app.controller('main', ['$scope', '$http', function ($scope, $http) {
+	$scope.pulled = new Date().toLocaleString();
+
+	// Memory stats
+	// TODO: Add memory variable to scope and make it to three arrays for each memory stat
+	// See image on GitHub for more information
+
 	// Current temperature
 	$http({
 		method: 'GET',
