@@ -74,7 +74,7 @@ var insert = function (mode, value) {
             if (mode.toLowerCase() == 'temp') {
                 db.collection('temp').insertOne({
                     "time": new Date(),
-                    "temp": (parseFloat(value))
+                    "temp": (parseFloat(value.replace(',', '.')))
                 }, function(err, result){insertCallback(err, result, db, resolve, reject);});
             } else if (mode.toLowerCase() == 'load') {
                 db.collection('load').insertOne({
