@@ -17,6 +17,7 @@ var cputemp_str = "sensors | grep 'Physical id 0:'";
  */
 client.getcommand(cputemp_re, cputemp_str).then(function (result_get) {
 	db.insert('temp', result_get).then(function (result) {}, function (err) {});
+	console.log(result_get);
 }, function (err_get) {
 	console.log(err_get);
 });
@@ -27,6 +28,7 @@ client.getcommand(cputemp_re, cputemp_str).then(function (result_get) {
  */
 client.getcommand(cpuload_re, cpuload_str).then(function (result_get) {
 	db.insert('load', result_get).then(function (result) {}, function (err) {});
+	console.log(result_get);
 }, function (err_get) {
 	console.log(err_get);
 });
