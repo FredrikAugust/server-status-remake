@@ -150,7 +150,7 @@ var minute = function (mode) {
                         minutes[count] = [doc.time.toTimeString().substr(0, 5),
                                           (minutes[count][1] + (doc.temp || doc.load)) / 2];
                         count_internal++;
-                    } else if (doc.time.getMinutes() != prev) {
+                    } else if (count <= 20 && doc.time.getMinutes() != prev) {
                         count++;
                         prev = doc.time.getMinutes();
                         // Push [hh:mm:ss, temp|load] to minutes
@@ -201,7 +201,7 @@ var hour = function(mode) {
                                         doc.time.toTimeString().substr(0,2) + ':00',
                                         (hours[count][1] + (doc.temp || doc.load)) / 2];
                         count_internal++;
-                    } else if (doc.time.getHours() != prev) {
+                    } else if (count <= 10 && doc.time.getHours() != prev) {
                         count++;
                         prev = doc.time.getHours();
                         // Push [hh:mm:ss, temp|load] to hours
@@ -254,7 +254,7 @@ var day = function(mode) {
                                         (doc.time.getMonth() + 1),
                                         (days[count][1] + (doc.temp || doc.load)) / 2];
                         count_internal++;
-                    } else if (doc.time.getDate() != prev) {
+                    } else if (count <= 7 && doc.time.getDate() != prev) {
                         count++;
                         prev = doc.time.getDate();
                         // Push [hh:mm:ss, temp|load] to days
