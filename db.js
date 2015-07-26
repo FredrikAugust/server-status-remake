@@ -194,7 +194,7 @@ var hour = function(mode) {
                 assert.equal(err, null);
 
                 if (doc !== null) {
-                    if (count <= 7 && doc.time.getHours() == prev) {
+                    if (count <= 10 && doc.time.getHours() == prev) {
                         // Push [hh:mm:ss, temp|load] to hours
                         hours[count] = [WEEKDAYS[doc.time.getDay()] + ' ' +
                                         doc.time.getDate() + ', ' +
@@ -247,7 +247,7 @@ var day = function(mode) {
                 assert.equal(err, null);
 
                 if (doc !== null) {
-                    if (count <= 10 && doc.time.getDate() == prev) {
+                    if (count <= 7 && doc.time.getDate() == prev) {
                         // Push [hh:mm:ss, temp|load] to days
                         days[count] = [WEEKDAYS[doc.time.getDay()] + ' ' +
                                         doc.time.getDate() + '/' +
