@@ -37,7 +37,7 @@ app.controller('main', ['$scope', '$http', function ($scope, $http) {
 		method: 'GET',
 		url: '/network'
 	}).success(function (data, status) {
-		console.log(data);
+		console.log(data, status);
 		$scope.down = data[0];
 		$scope.up = data[1];
 	}).error(function (data, status) {
