@@ -212,7 +212,7 @@ var hour = function(mode) {
                                         doc.time.getDate() + ', ' +
                                         doc.time.toTimeString().substr(0,2) + ':00',
                                         0 + (doc.temp || doc.load)];
-                        count_internal = 2;
+                        sample = 1;
                     } else {
                         resolve(hours);
                         db.close();
@@ -268,7 +268,7 @@ var day = function(mode) {
                                         doc.time.getDate() + '/' +
                                         (doc.time.getMonth() + 1),
                                         0 + (doc.temp || doc.load)];
-                        count_internal = 2;
+                        sample = 1;
                     } else {
                         resolve(days);
                         db.close();
