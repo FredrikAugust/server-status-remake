@@ -258,7 +258,7 @@ var day = function(mode) {
                                         doc.time.getDate() + '/' +
                                         (doc.time.getMonth() + 1),
                                         days[count][1] + (doc.temp || doc.load)];
-                        count_internal++;
+                        sample++;
                     } else if (count < 6 && doc.time.getDate() != prev) {
                         if (count > -1) { days[count][1] = days[count][1] / sample; }
                         count++;
