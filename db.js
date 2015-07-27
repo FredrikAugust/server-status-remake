@@ -76,13 +76,11 @@ var insert = function (mode, value) {
                     "time": new Date(),
                     "temp": (parseFloat(value.replace(',', '.')))
                 }, function(err, result){insertCallback(err, result, db, resolve, reject);});
-                console.log(value);
             } else if (mode.toLowerCase() == 'load') {
                 db.collection('load').insertOne({
                     "time": new Date(),
                     "load": ((parseFloat(value.replace(',', '.')) / 4) * 100)
                 }, function(err, result){insertCallback(err, result, db, resolve, reject);});
-                console.log(value);
             } else {
                 db.close();
                 reject('Invalid input');
@@ -135,7 +133,7 @@ var minute = function (mode) {
         connect(function (db) {
             var count = -1;
             var prev = -1;
-            var count_internal = 2;
+            var sample = 1;
 
             var cursor = db.collection(mode).find({}).sort({time:-1});
 
@@ -147,23 +145,25 @@ var minute = function (mode) {
                 assert.equal(err, null);
 
                 if (doc !== null) {
-                    if (count < 20 && doc.time.getMinutes() == prev) {
+                    if (count < 19 && doc.time.getMinutes() == prev) {
+                        sample++;
                         // Push [hh:mm:ss, temp|load] to minutes
                         minutes[count] = [doc.time.toTimeString().substr(0, 5),
-                                          (minutes[count][1] + (doc.temp || doc.load)) / count_internal];
-                        count_internal++;
-                    } else if (count < 20 && doc.time.getMinutes() != prev) {
+                                          minutes[count][1] + (doc.temp || doc.load)];
+                    } else if (count < 19 && doc.time.getMinutes() != prev) {
+                        if (count > -1) { minutes[count][1] = minutes[count][1] / sample; }
                         count++;
                         prev = doc.time.getMinutes();
                         // Push [hh:mm:ss, temp|load] to minutes
                         minutes[count] = [doc.time.toTimeString().substr(0,5),
-                                          0 + (doc.temp || doc.load)];
-                        count_internal = 2;
+                                          doc.temp || doc.load];
+                        sample = 1;
                     } else {
                         resolve(minutes);
                         db.close();
                     }
                 } else {
+                    if (count > -1) { minutes[count][1] = minutes[count][1] / sample; }
                     resolve(minutes);
                     db.close();
                 }
@@ -184,7 +184,7 @@ var hour = function(mode) {
         connect(function (db) {
             var count = -1;
             var prev = -1;
-            var count_internal = 2;
+            var sample = 1;
 
             var cursor = db.collection(mode).find({}).sort({time:-1});
 
@@ -196,14 +196,15 @@ var hour = function(mode) {
                 assert.equal(err, null);
 
                 if (doc !== null) {
-                    if (count < 10 && doc.time.getHours() == prev) {
+                    if (count < 9 && doc.time.getHours() == prev) {
+                        sample++;
                         // Push [hh:mm:ss, temp|load] to hours
                         hours[count] = [WEEKDAYS[doc.time.getDay()] + ' ' +
                                         doc.time.getDate() + ', ' +
                                         doc.time.toTimeString().substr(0,2) + ':00',
-                                        (hours[count][1] + (doc.temp || doc.load)) / count_internal];
-                        count_internal++;
-                    } else if (count < 10 && doc.time.getHours() != prev) {
+                                        hours[count][1] + (doc.temp || doc.load)];
+                    } else if (count < 9 && doc.time.getHours() != prev) {
+                        if (count > -1) { hours[count][1] = hours[count][1] / sample; }
                         count++;
                         prev = doc.time.getHours();
                         // Push [hh:mm:ss, temp|load] to hours
@@ -211,15 +212,14 @@ var hour = function(mode) {
                                         doc.time.getDate() + ', ' +
                                         doc.time.toTimeString().substr(0,2) + ':00',
                                         0 + (doc.temp || doc.load)];
-                        count_internal = 2;
+                        sample = 1;
                     } else {
                         resolve(hours);
-                        console.log(hours.length);
                         db.close();
                     }
                 } else {
+                    if (count > -1) { hours[count][1] = hours[count][1] / sample; }
                     resolve(hours);
-                    console.log(hours.length);
                     db.close();
                 }
             });
@@ -239,7 +239,7 @@ var day = function(mode) {
         connect(function (db) {
             var count = -1;
             var prev = -1;
-            var count_internal = 2;
+            var sample = 1;
 
             var cursor = db.collection(mode).find({}).sort({time:-1});
 
@@ -251,14 +251,16 @@ var day = function(mode) {
                 assert.equal(err, null);
 
                 if (doc !== null) {
-                    if (count < 7 && doc.time.getDate() == prev) {
+                    if (count < 6 && doc.time.getDate() == prev) {
+                        sample++;
                         // Push [hh:mm:ss, temp|load] to days
                         days[count] = [WEEKDAYS[doc.time.getDay()] + ' ' +
                                         doc.time.getDate() + '/' +
                                         (doc.time.getMonth() + 1),
-                                        (days[count][1] + (doc.temp || doc.load)) / count_internal];
+                                        days[count][1] + (doc.temp || doc.load)];
                         count_internal++;
-                    } else if (count < 7 && doc.time.getDate() != prev) {
+                    } else if (count < 6 && doc.time.getDate() != prev) {
+                        if (count > -1) { days[count][1] = days[count][1] / sample; }
                         count++;
                         prev = doc.time.getDate();
                         // Push [hh:mm:ss, temp|load] to days
@@ -266,12 +268,13 @@ var day = function(mode) {
                                         doc.time.getDate() + '/' +
                                         (doc.time.getMonth() + 1),
                                         0 + (doc.temp || doc.load)];
-                        count_internal = 2;
+                        sample = 1;
                     } else {
                         resolve(days);
                         db.close();
                     }
                 } else {
+                    if (count > -1) { days[count][1] = days[count][1] / sample; }
                     resolve(days);
                     db.close();
                 }

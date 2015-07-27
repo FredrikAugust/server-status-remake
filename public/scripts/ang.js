@@ -15,7 +15,7 @@ app.controller('main', ['$scope', '$http', function ($scope, $http) {
 		method: 'GET',
 		url: '/realtime/temp'
 	}).success(function (data, status) {
-		$scope.temp = data[0][1];
+		$scope.temp = parseFloat(data[0][1]).toFixed(2);
 	}).error(function (data, status) {
 		$scope.temp = 0;
 		return new Error('Could not retrieve current temp.');
@@ -26,7 +26,7 @@ app.controller('main', ['$scope', '$http', function ($scope, $http) {
 		method: 'GET',
 		url: '/realtime/load'
 	}).success(function (data, status) {
-		$scope.load = data[0][1];
+		$scope.load = parseFloat(data[0][1]).toFixed(2);
 	}).error(function (data, status) {
 		$scope.load = 0;
 		return new Error('Could not retrieve current load.');
@@ -37,6 +37,7 @@ app.controller('main', ['$scope', '$http', function ($scope, $http) {
 		method: 'GET',
 		url: '/network'
 	}).success(function (data, status) {
+		console.log(data);
 		$scope.down = data[0];
 		$scope.up = data[1];
 	}).error(function (data, status) {
@@ -94,7 +95,7 @@ app.controller('main', ['$scope', '$http', function ($scope, $http) {
 
 			$('.' + mode + 'plot').highcharts({
 				chart: {
-		            type: 'line',
+		            type: 'spline',
 		            backgroundColor: '#2b3e50',
 		            borderColor: '#fff',
 		            borderWidth: 1
