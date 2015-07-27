@@ -130,6 +130,7 @@ var realtime = function (mode) {
  */
 var minute = function (mode) {
     var minutes = [];
+    var count = 1;
 
     return new Promise(function (resolve, reject) {
         connect(function (db) {
@@ -151,7 +152,7 @@ var minute = function (mode) {
                         // Push [hh:mm:ss, temp|load] to minutes
                         minutes[count] = [doc.time.toTimeString().substr(0, 5),
                                           minutes[count][1] + (doc.temp || doc.load)];
-                        count_internal++;
+                        count++;
                     } else if (count < 19 && doc.time.getMinutes() != prev) {
                         count++;
                         prev = doc.time.getMinutes();
@@ -214,12 +215,10 @@ var hour = function(mode) {
                         count_internal = 2;
                     } else {
                         resolve(hours);
-                        console.log(hours.length);
                         db.close();
                     }
                 } else {
                     resolve(hours);
-                    console.log(hours.length);
                     db.close();
                 }
             });
@@ -269,7 +268,6 @@ var day = function(mode) {
                         count_internal = 2;
                     } else {
                         resolve(days);
-                        console.log(days);
                         db.close();
                     }
                 } else {
