@@ -147,12 +147,12 @@ var minute = function (mode) {
                 assert.equal(err, null);
 
                 if (doc !== null) {
-                    if (count < 20 && doc.time.getMinutes() == prev) {
+                    if (count < 19 && doc.time.getMinutes() == prev) {
                         // Push [hh:mm:ss, temp|load] to minutes
                         minutes[count] = [doc.time.toTimeString().substr(0, 5),
-                                          (minutes[count][1] + (doc.temp || doc.load)) / count_internal];
+                                          minutes[count][1] + (doc.temp || doc.load)];
                         count_internal++;
-                    } else if (count < 20 && doc.time.getMinutes() != prev) {
+                    } else if (count < 19 && doc.time.getMinutes() != prev) {
                         count++;
                         prev = doc.time.getMinutes();
                         // Push [hh:mm:ss, temp|load] to minutes
@@ -196,14 +196,14 @@ var hour = function(mode) {
                 assert.equal(err, null);
 
                 if (doc !== null) {
-                    if (count < 10 && doc.time.getHours() == prev) {
+                    if (count < 9 && doc.time.getHours() == prev) {
                         // Push [hh:mm:ss, temp|load] to hours
                         hours[count] = [WEEKDAYS[doc.time.getDay()] + ' ' +
                                         doc.time.getDate() + ', ' +
                                         doc.time.toTimeString().substr(0,2) + ':00',
-                                        (hours[count][1] + (doc.temp || doc.load)) / count_internal];
+                                        hours[count][1] + (doc.temp || doc.load)];
                         count_internal++;
-                    } else if (count < 10 && doc.time.getHours() != prev) {
+                    } else if (count < 9 && doc.time.getHours() != prev) {
                         count++;
                         prev = doc.time.getHours();
                         // Push [hh:mm:ss, temp|load] to hours
@@ -251,14 +251,14 @@ var day = function(mode) {
                 assert.equal(err, null);
 
                 if (doc !== null) {
-                    if (count < 7 && doc.time.getDate() == prev) {
+                    if (count < 6 && doc.time.getDate() == prev) {
                         // Push [hh:mm:ss, temp|load] to days
                         days[count] = [WEEKDAYS[doc.time.getDay()] + ' ' +
                                         doc.time.getDate() + '/' +
                                         (doc.time.getMonth() + 1),
-                                        (days[count][1] + (doc.temp || doc.load)) / count_internal];
+                                        days[count][1] + (doc.temp || doc.load)];
                         count_internal++;
-                    } else if (count < 7 && doc.time.getDate() != prev) {
+                    } else if (count < 6 && doc.time.getDate() != prev) {
                         count++;
                         prev = doc.time.getDate();
                         // Push [hh:mm:ss, temp|load] to days
@@ -269,6 +269,7 @@ var day = function(mode) {
                         count_internal = 2;
                     } else {
                         resolve(days);
+                        console.log(days);
                         db.close();
                     }
                 } else {
