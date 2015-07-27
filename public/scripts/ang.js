@@ -38,8 +38,8 @@ app.controller('main', ['$scope', '$http', function ($scope, $http) {
 		url: '/network'
 	}).success(function (data, status) {
 		console.log(data, status);
-		$scope.down = data[0];
-		$scope.up = data[1];
+		$scope.down = String(data[0] / 1000000000) + ' GB';
+		$scope.up = String(data[1] / 1000000000) + ' GB';
 	}).error(function (data, status) {
 		$scope.down = 0;
 		$scope.up = 0;

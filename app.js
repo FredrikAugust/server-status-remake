@@ -51,9 +51,9 @@ app.get('/day/:mode', function (req, res) {
 });
 
 // Regex
-var network_re = /\(([\d]+[\.]*[\d]*\ [\w]+|[\d]+[\.]*[\d]*\ [\w]+)\)/;
-var network_down_str = "ifconfig | grep 'RX bytes' -m 1".split('TX')[0];
-var network_up_str = "ifconfig | grep 'RX bytes' -m 1".split('TX')[1];
+var network_re = /([\s\S]+)/;
+var network_down_str = "cat /sys/class/net/eth0/statistics/rx_bytes";
+var network_up_str = "cat /sys/class/net/eth0/statistics/tx_bytes";
 
 // GET: Network up and down
 app.get('/network', function (req, res) {
