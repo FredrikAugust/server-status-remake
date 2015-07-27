@@ -136,7 +136,7 @@ app.controller('main', ['$scope', '$http', function ($scope, $http) {
 		        	}
 		        },
 		        plotOptions: {
-		            line: {
+		            spline: {
 		                dataLabels: {
 		                    enabled: true,
 		                    style: {
