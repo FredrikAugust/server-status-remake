@@ -37,7 +37,7 @@ You have now removed all entries from the database.
 - ~~Make daily graph average over whole day~~
 - ~~Make hour graph average over whole hour~~
 - ~~Display uptime~~
-- Display time & date when the information was retrieved
+- ~~Display time & date when the information was retrieved~~
 - CPU load bar
 - ~~Network stats~~
 - Memory stats
