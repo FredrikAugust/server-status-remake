@@ -101,8 +101,25 @@ app.get('/uptime', function (req, res) {
 });
 
 // GET: Memory stats
-// TODO: Implement memory get route
-// Take info from client.memstats()
+app.get('/memory', function (req, res) {
+    client.memstats().then(function (result) {
+        result[11] = result[6];
+        result[12] = result[7];
+        result[0] = parseFloat(result[0] / 1000000).toFixed(1);
+        result[1] = parseFloat(result[1] / 1000000).toFixed(1);
+        result[2] = parseFloat(result[2] / 1000000).toFixed(1);
+        result[3] = parseFloat(result[3] / 1000).toFixed(1);
+        result[4] = parseFloat(result[4] / 1000000).toFixed(1);
+        result[5] = parseFloat(result[5] / 1000000).toFixed(1);
+        result[6] = parseFloat(result[6] / 1000).toFixed(1);
+        result[7] = parseFloat(result[7] / 1000000).toFixed(1);
+        result[8] = parseFloat(result[8] / 1).toFixed(1);
+        result[9] = parseFloat(result[9] / 1).toFixed(1);
+        result[10] = parseFloat(result[10] / 1).toFixed(1);
+    }, function (err) {
+
+    });
+});
 
 // Index route
 app.get('/', function (req, res) {
