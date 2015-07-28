@@ -13,7 +13,7 @@ app.controller('main', ['$scope', '$http', function ($scope, $http) {
 	}).success(function (data, status) {
 		$scope.mem = data;
 	}).error(function (data, status) {
-
+		$scope.mem = [];
 	});
 
 	// Current temperature

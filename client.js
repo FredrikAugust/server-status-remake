@@ -68,7 +68,7 @@ var drivestats = function () {
 };
 
 var memstats = function () {
-    var re = /[\d\.]+\w/g;
+    var re = /[\d]+/g;
     var result = [];
 
     return new Promise(function(resolve, reject) {
@@ -77,7 +77,11 @@ var memstats = function () {
                 reject(err);
             }
 
-            while ((result = re.exec(stdout)) !== null) {}
+            for (var i = 0; i < stdout.match(re).length; i++) {
+                result.push(re.exec(stdout));
+            }
+
+            console.dir(result);
 
             resolve(result);
         });
