@@ -58,6 +58,22 @@ html(ng-app='server-status-remake' ng-controller='main' ng-init='time_temp = "re
 
 
                 div(class='col-sm-4')
+                    h2 Progress bars
+                    hr
+                    p(class='small') CPU Load
+                    div(class='progress')
+                        div(class='progress-bar-striped progress-bar active' aria-valuemin='0' aria-valuemax='100' aria-valuenow='{{ load }}' style='width:{{load}}%;' ng-class='load <= 25 ? "progress-bar-success" : (load >= 70 ? "progress-bar-danger" : "progress-bar-warning")')
+                            span {{ load }}%
+                    p(class='small') Temperature
+                    div(class='progress')
+                        div(class='progress-bar-striped progress-bar active' aria-valuemin='0' aria-valuemax='100' aria-valuenow='{{ temp }}' style='width:{{temp}}%' ng-class='temp <= 30 ? "progress-bar-success" : (temp >= 60 ? "progress-bar-danger" : "progress-bar-warning")')
+                            span {{ temp }}&deg;C
+                    p(class='small') swap/cache
+                    div(class='progress')
+                        div(class='progress-bar-striped progress-bar active' aria-valuemin='0' aria-valuemax='{{mem[12]+mem[11]}}' aria-valuenow='{{ mem[11] }}' style='width:{{mem[11]/mem[12]*100}}%' ng-class='mem[11]/mem[12]*100 <= 20 ? "progress-bar-success" : (mem[11]/mem[12]*100 >= 60 ? "progress-bar-danger" : "progress-bar-warning")')
+                            span {{ mem[7] }}&nbsp;MB
+
+            hr
                     h2 Network
                     span(class='glyphicon glyphicon-upload')
                     span {{ up }}
