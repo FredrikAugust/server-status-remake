@@ -40,8 +40,8 @@ You have now removed all entries from the database.
 - ~~Display time & date when the information was retrieved~~
 - CPU load bar
 - ~~Network stats~~
-- Memory stats
-- Memory bar
+- ~~Memory stats~~
+- ~~Memory bar~~
 - ~~Drive stats~~
 - Auto refresh the page every minute
 
