@@ -135,7 +135,7 @@ var minute = function (mode) {
             var prev = -1;
             var sample = 1;
 
-            var cursor = db.collection(mode).find({}).sort({time:-1});
+            var cursor = db.collection(mode).find({}).limit(0).sort({time:-1});
 
             cursor.each(function (err, doc) {
                 if (err) {
@@ -186,7 +186,7 @@ var hour = function(mode) {
             var prev = -1;
             var sample = 1;
 
-            var cursor = db.collection(mode).find({}).sort({time:-1});
+            var cursor = db.collection(mode).find({}).limit(0).sort({time:-1});
 
             cursor.each(function (err, doc) {
                 if (err) {
@@ -241,7 +241,7 @@ var day = function(mode) {
             var prev = -1;
             var sample = 1;
 
-            var cursor = db.collection(mode).find({}).sort({time:-1});
+            var cursor = db.collection(mode).find({}).limit(0).sort({time:-1});
 
             cursor.each(function (err, doc) {
                 if (err) {
