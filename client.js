@@ -72,7 +72,7 @@ var memstats = function () {
     var result = [];
 
     return new Promise(function(resolve, reject) {
-        exec("free -h", function (err, stdout, stderr) {
+        exec("free -k", function (err, stdout, stderr) {
             if (err) {
                 reject(err);
             }
