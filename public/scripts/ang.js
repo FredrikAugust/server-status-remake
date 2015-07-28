@@ -7,8 +7,14 @@ app.controller('main', ['$scope', '$http', function ($scope, $http) {
 	$scope.pulled = new Date().toLocaleString();
 
 	// Memory stats
-	// TODO: Add memory variable to scope and make it to three arrays for each memory stat
-	// See image on GitHub for more information
+	$http({
+		method: 'GET',
+		url: '/memory'
+	}).success(function (data, status) {
+		$scope.mem = data;
+	}).error(function (data, status) {
+
+	});
 
 	// Current temperature
 	$http({

@@ -116,6 +116,8 @@ app.get('/memory', function (req, res) {
         result[8] = parseFloat(result[8] / 1).toFixed(1);
         result[9] = parseFloat(result[9] / 1).toFixed(1);
         result[10] = parseFloat(result[10] / 1).toFixed(1);
+
+        res.send(result);
     }, function (err) {
 
     });
