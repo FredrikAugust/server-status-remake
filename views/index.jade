@@ -71,7 +71,7 @@ html(ng-app='server-status-remake' ng-controller='main' ng-init='time_temp = "re
                     p(class='small') swap/cache
                     div(class='progress')
                         div(class='progress-bar-striped progress-bar active' aria-valuemin='0' aria-valuemax='{{mem[12]+mem[11]}}' aria-valuenow='{{ mem[11] }}' style='width:{{mem[11]/mem[12]*100}}%' ng-class='mem[11]/mem[12]*100 <= 20 ? "progress-bar-success" : (mem[11]/mem[12]*100 >= 60 ? "progress-bar-danger" : "progress-bar-warning")')
-                            span {{ mem[7] }}&nbsp;MB
+                            span {{ mem[6] }}&nbsp;MB
 
             hr
 
@@ -91,25 +91,25 @@ html(ng-app='server-status-remake' ng-controller='main' ng-init='time_temp = "re
                         tbody
                             tr
                                 th Memory
-                                td {{ mem[0] / 1000000 }} GB
-                                td {{ mem[1] / 1000000 }} GB
-                                td {{ mem[2] / 1000000 }} GB
-                                td {{ mem[3] / 1000 }} MB
-                                td {{ mem[4] / 1000000 }} GB
-                                td {{ mem[5] / 1000000 }} GB
+                                td {{ mem[0] }} GB
+                                td {{ mem[1] }} GB
+                                td {{ mem[2] }} GB
+                                td {{ mem[3] }} MB
+                                td {{ mem[4] }} GB
+                                td {{ mem[5] }} GB
                             tr
                                 th -/+ buffers/cache
                                 td -
-                                td {{ mem[6] / 1000 }} MB
-                                td {{ mem[7] / 1000000 }} GB
+                                td {{ mem[6] }} MB
+                                td {{ mem[7] }} GB
                                 td -
                                 td -
                                 td -
                             tr
                                 th Swap
-                                td {{ mem[8] / 1}} B
-                                td {{ mem[9] / 1}} B
-                                td {{ mem[10] / 1}} B
+                                td {{ mem[8] }} B
+                                td {{ mem[9] }} B
+                                td {{ mem[10] }} B
                                 td -
                                 td -
                                 td -
