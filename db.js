@@ -1,6 +1,15 @@
 // MongoDB stuff
 // Created by Fredrik A. Madsen-Malmo
 
+/**
+ * TODO:
+ * Move everything to Postgres because
+ * MongoDB sucks.
+ *
+ * Note to self:
+ * mongo sucks, don't use it.
+ */
+
 // Imports
 var mongo = require('mongodb').MongoClient;
 var assert = require('assert');
@@ -139,7 +148,7 @@ var minute = function (mode) {
                 time: {
                     $gt: new Date(new Date().getTime() - 1000 * 60 * 21)
                 }
-            }).addOption(DBQuery.Option.tailable).limit(0).sort({time:-1});
+            }).limit(0).sort({time:-1});
 
             cursor.each(function (err, doc) {
                 if (err) {
@@ -194,7 +203,7 @@ var hour = function(mode) {
                 time: {
                     $gt: new Date(new Date().getTime() - 1000 * 60 * 60 * 11)
                 }
-            }).addOption(DBQuery.Option.tailable).limit(0).sort({time:-1});
+            }).limit(0).sort({time:-1});
 
             cursor.each(function (err, doc) {
                 if (err) {
@@ -253,7 +262,7 @@ var day = function(mode) {
                 time: {
                     $gt: new Date(new Date().getTime() - 1000 * 60 * 60 * 24 * 8)
                 }
-            }).addOption(DBQuery.Option.tailable).limit(0).sort({time:-1});
+            }).limit(0).sort({time:-1});
 
             cursor.each(function (err, doc) {
                 if (err) {
