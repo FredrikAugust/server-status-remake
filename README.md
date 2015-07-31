@@ -45,6 +45,7 @@ You have now removed all entries from the database.
 - ~~Drive stats~~
 - Auto refresh the page every minute
 - Fixing hour & daily graphs
+- As it appears that it is impossible to retrieve **all** entries from the Mongo DB I will change the database to a postgresql instead, and use mongoose or something as the ORM. This will make it a bit easier to work with everything.
 
 _'Kinda like [this](https://lh5.googleusercontent.com/-yvvO2xzXEzI/VbEtV6jgiTI/AAAAAAAAAVw/NTlSChaSJkk/w1111-h865-no/2015-07-23.png) and [this](https://lh5.googleusercontent.com/-csIi1eDTj6U/VbEtWjCi0PI/AAAAAAAAAV4/GJch_n4Rr-4/w1070-h865-no/2015-07-23.png)._
 _~ @Tijndagamer_
