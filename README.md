@@ -45,7 +45,12 @@ You have now removed all entries from the database.
 - ~~Drive stats~~
 - Auto refresh the page every minute
 - Fixing hour & daily graphs
-- As it appears that it is impossible to retrieve **all** entries from the Mongo DB I will change the database to a postgresql instead, and use sequelize or something as the ORM. This will make it a bit easier to work with everything.
+
+======
+
+What I'm going to do is use the same approach I used when creating the original server-status. When I run the `loop.js` I want to check if the minute/hour/day-value is different from the previous entry. If so I want to iterate over the previous until I reach yet another different minute/hour/day-value. That will give me the average, and then I can insert that into e.g. tempday or loadminute.
+
+======
 
 _'Kinda like [this](https://lh5.googleusercontent.com/-yvvO2xzXEzI/VbEtV6jgiTI/AAAAAAAAAVw/NTlSChaSJkk/w1111-h865-no/2015-07-23.png) and [this](https://lh5.googleusercontent.com/-csIi1eDTj6U/VbEtWjCi0PI/AAAAAAAAAV4/GJch_n4Rr-4/w1070-h865-no/2015-07-23.png)._
 _~ @Tijndagamer_
