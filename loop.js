@@ -14,6 +14,8 @@ var cputemp_str = "sensors | grep 'Physical id 0:'";
 /**
  * Gets the CPU Temperature frmo the client.getcommand function and inserts that
  * to the database
+ * 
+ * TODO: Check if the minute/hour/day-value is the same. If not calc and insert average.
  */
 client.getcommand(cputemp_re, cputemp_str).then(function (result_get) {
 	db.insert('temp', result_get).then(function (result) {}, function (err) {});
@@ -25,6 +27,8 @@ client.getcommand(cputemp_re, cputemp_str).then(function (result_get) {
 /**
  * Gets the CPU Load frmo the client.getcommand function and inserts that
  * to the database
+ * 
+ * TODO: Check if the minute/hour/day-value is the same. If not calc and insert average.
  */
 client.getcommand(cpuload_re, cpuload_str).then(function (result_get) {
 	db.insert('load', result_get).then(function (result) {}, function (err) {});
