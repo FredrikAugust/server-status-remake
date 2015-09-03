@@ -52,6 +52,12 @@ var connect = function (func) {
 // DB functions
 
 /**
+ * TODO: 
+ * Alter the load-getting function to use Martijns method
+ * as his method is more precise. And well.. He likes precision.
+ */
+
+/**
  * Callback used for the isert function
  * @param  {Object}   err     This is the Error object that describes the error encountered
  * @param  {Object}   result  This is the result, contains all info about the insert
@@ -77,16 +83,21 @@ function insertCallback (err, result, db, resolve, reject) {
  * @param  {String}    value the value to insert.
  * @return {Function} A promise with the value passed in
  */
-var insert = function (mode, value) {
+var insert = function (mode, value, type) {
+    // This is so we don't have any issues with typos or something.
+    if (!(type == 'minute' || type == 'hour' || type == 'day')) {
+        type = "";
+    }
+
     return new Promise(function (resolve, reject) {
         connect(function (db) {
             if (mode.toLowerCase() == 'temp') {
-                db.collection('temp').insertOne({
+                db.collection('temp' + type).insertOne({
                     "time": new Date(),
                     "temp": (parseFloat(value.replace(',', '.')))
                 }, function(err, result){insertCallback(err, result, db, resolve, reject);});
             } else if (mode.toLowerCase() == 'load') {
-                db.collection('load').insertOne({
+                db.collection('load' + type).insertOne({
                     "time": new Date(),
                     "load": ((parseFloat(value.replace(',', '.')) / 4) * 100)
                 }, function(err, result){insertCallback(err, result, db, resolve, reject);});
@@ -129,6 +140,8 @@ var realtime = function (mode) {
         });
     });
 };
+
+// Rewrite functions to use new collections
 
 /**
  * Get's the average temperature for the 20 last minutes
