@@ -6,6 +6,18 @@ var app = angular.module('server-status-remake', []);
 app.controller('main', ['$scope', '$http', function ($scope, $http) {
 	$scope.pulled = new Date().toLocaleString();
 
+	// Refresh function
+	$scope.refresh_graphs = function () {
+		$http({
+			method: 'GET',
+			url: '/refresh'
+		}).success(function (data, status) {
+			console.log('Creating new graphs.');
+		}).error(function (data, status) {
+			console.log('Could not create new graphs.');
+		});
+	}
+
 	// Memory stats
 	$http({
 		method: 'GET',
@@ -85,89 +97,4 @@ app.controller('main', ['$scope', '$http', function ($scope, $http) {
 		$scope.comp_name = '0 min';
 		return new Error('Could not retrieve current uptime data.');
 	});
-
-    $scope.renderChart = function (mode, time) {
-    	$http({
-    		method: 'GET',
-    		url: '/' + time + '/' + mode
-    	}).success(function (data, status) {
-    		var x = [],
-    			y = [];
-
-    		data.forEach(function(element) {
-				x.unshift(element[0]);
-				y.unshift(parseFloat(element[1].toFixed(2)));
-			});
-
-			$('.' + mode + 'plot').highcharts({
-				chart: {
-		            type: 'spline',
-		            backgroundColor: '#2b3e50',
-		            borderColor: '#fff',
-		            borderWidth: 1
-
-		        },
-		        title: {
-		        	useHTML: true,
-		        	text: '<h3>' + ((mode == 'temp' && 'Temperature') || 'CPU Load') + '</h3>',
-		        	style: {
-		        		color: '#ebebeb'
-		        	}
-		        },
-		        subtitle: {
-		        	text: ((time != 'realtime' && 'Average ') || '') + time[0].toUpperCase() + time.substr(1),
-		        	style: {
-		        		color: '#ecf0f1'
-		        	}
-		        },
-		        xAxis: {
-		        	categories: x,
-		        	labels: {
-		        		style: {
-		        			color: '#ecf0f1'
-		        		}
-		        	}
-		        },
-		        yAxis: {
-		        	title: {
-		        		text: (mode == 'temp' && 'Temperature (\xb0C)') || 'CPU Load (%)',
-		        		style: {
-		        			color: '#ecf0f1'
-		        		}
-		        	},
-		        	labels: {
-		        		style: {
-		        			color: '#ecf0f1'
-		        		}
-		        	}
-		        },
-		        plotOptions: {
-		            spline: {
-		                dataLabels: {
-		                    enabled: true,
-		                    style: {
-		                    	color: '#ecf0f1',
-		                    	textShadow: 0
-		                    }
-		                }
-		            }
-		        },
-		        series: [{
-		        	name: (mode == 'temp' && 'Temperature') || 'CPU Load',
-		            data: y
-		        }],
-		        navigation: {
-		        	buttonOptions: {
-		        		enabled: false
-		        	}
-		        },
-		        legend: {
-		        	enabled: false
-		        },
-		        credits: {
-		        	enabled: false
-		        }
-			});
-    	});
-    };
 }]);

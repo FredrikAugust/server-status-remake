@@ -1,5 +1,5 @@
 doctype html
-html(ng-app='server-status-remake' ng-controller='main' ng-init='time_temp = "realtime"; time_load = "realtime"; renderChart("temp", "realtime"); renderChart("load", "realtime")')
+html(ng-app='server-status-remake' ng-controller='main' ng-init='temp_chart = "Temperature-Realtime.png"; load_chart = "CPULoad-Realtime.png"')
     head
         title {{ temp }}&deg;C | {{ comp_name }}
 
@@ -11,38 +11,46 @@ html(ng-app='server-status-remake' ng-controller='main' ng-init='time_temp = "re
         link(rel='stylesheet' href='stylesheets/bootswatch.css')
         link(rel='stylesheet' href='stylesheets/style.css')
     body
-        div(class='container')
-            div(class='main')
+        div.container
+            div.main
                 h1 {{ comp_name }}
-
                 p {{ uptime }}
 
             hr
 
-            div(class='row')
-                div(class='col-sm-6')
-                    p(class='lead') Current temprature:&nbsp;
+            div.row
+                div.col-sm-6
+                    p.lead Current temprature:&nbsp;
                         b {{ temp }}&deg;C
-                    div(class='tempplot')
+                    div
+                        img(ng-src='{{temp_chart}}' class='img img-responsive')
                     br
-                    span(class='btn btn-default' ng-class="time_temp=='realtime' ? 'active' : ''" ng-click="time_temp = 'realtime'; renderChart('temp', 'realtime')") Realtime
-                    span(class='btn btn-default' ng-class="time_temp=='minute' ? 'active' : ''" ng-click="time_temp = 'minute'; renderChart('temp', 'minute')") Minute
-                    span(class='btn btn-default' ng-class="time_temp=='hour' ? 'active' : ''" ng-click="time_temp = 'hour'; renderChart('temp', 'hour')") Hour
-                    span(class='btn btn-default' ng-class="time_temp=='day' ? 'active' : ''" ng-click="time_temp = 'day'; renderChart('temp', 'day')") Day
-                div(class='col-sm-6')
+                    span.btn.btn-default(ng-class="temp_chart=='Temperature-Realtime.png' ? 'active' : ''" ng-click="temp_chart = 'Temperature-Realtime.png'") Realtime
+                    span.btn.btn-default(ng-class="temp_chart=='Temperature-Hour.png' ? 'active' : ''" ng-click="temp_chart = 'Temperature-Hour.png'") Hour
+                    span.btn.btn-default(ng-class="temp_chart=='Temperature-Day.png' ? 'active' : ''" ng-click="temp_chart = 'Temperature-Day.png'") Day
+                    span.btn.btn-default(ng-class="temp_chart=='Temperature-Week.png' ? 'active' : ''" ng-click="temp_chart = 'Temperature-Week.png'") Week
+                div.col-sm-6
                     p(class='lead') Current CPU Load:&nbsp;
                         b {{ load }}%
-                    div(class='loadplot')
+                    div
+                        img.img.img-responsive(ng-src='{{load_chart}}')
                     br
-                    span(class='btn btn-default' ng-class="time_load=='realtime' ? 'active' : ''" ng-click="time_load = 'realtime'; renderChart('load', 'realtime')") Realtime
-                    span(class='btn btn-default' ng-class="time_load=='minute' ? 'active' : ''" ng-click="time_load = 'minute'; renderChart('load', 'minute')") Minute
-                    span(class='btn btn-default' ng-class="time_load=='hour' ? 'active' : ''" ng-click="time_load = 'hour'; renderChart('load', 'hour')") Hour
-                    span(class='btn btn-default' ng-class="time_load=='day' ? 'active' : ''" ng-click="time_load = 'day'; renderChart('load', 'day')") Day
+                    span.btn.btn-default(ng-class="load_chart=='CPULoad-Realtime.png' ? 'active' : ''" ng-click="load_chart = 'CPULoad-Realtime.png") Realtime
+                    span.btn.btn-default(ng-class="load_chart=='CPULoad-Hour.png' ? 'active' : ''" ng-click="load_chart = 'CPULoad-Hour.png") Hour
+                    span.btn.btn-default(ng-class="load_chart=='CPULoad-Day.png' ? 'active' : ''" ng-click="load_chart = 'CPULoad-Day.png") Day
+                    span.btn.btn-default(ng-class="load_chart=='CPULoad-Week.png' ? 'active' : ''" ng-click="load_chart = 'CPULoad-Week.png") Week
+
+            div.row
+                div.col-xs-12
+                    hr
+                    span.btn.btn-default(ng-click='refresh_graphs()') Create new graphs
+                    span.btn.btn-default(ng-click='temp_chart = temp_chart;load_chart = load_chart') Reload graphs
+
             hr
-            div(class='row')
-                div(class='col-sm-8')
+            div.row
+                div.col-sm-8
                     h2 Drive stats
-                    table(class='table table-hover')
+                    table.table.table-hover
                         thead
                             tr
                                 th Partition
@@ -57,24 +65,24 @@ html(ng-app='server-status-remake' ng-controller='main' ng-init='time_temp = "re
                                     span {{ value }}
 
 
-                div(class='col-sm-4')
+                div.col-sm-4
                     h2 Progress bars
                     hr
-                    p(class='small') CPU Load
-                    div(class='progress')
-                        div(class='progress-bar-striped progress-bar active' aria-valuemin='0' aria-valuemax='100' aria-valuenow='{{ load }}' style='width:{{load}}%;' ng-class='load <= 25 ? "progress-bar-success" : (load >= 70 ? "progress-bar-danger" : "progress-bar-warning")')
+                    p.small CPU Load
+                    div.progress
+                        div.progress-bar-striped.progress-bar.active(aria-valuemin='0' aria-valuemax='100' aria-valuenow='{{ load }}' style='width:{{load}}%;' ng-class='load <= 25 ? "progress-bar-success" : (load >= 70 ? "progress-bar-danger" : "progress-bar-warning")')
                             span {{ load }}%
-                    p(class='small') Used memory
-                    div(class='progress')
-                        div(class='progress-bar-striped progress-bar active' aria-valuemin='0' aria-valuemax='{{mem[12]+mem[11]}}' aria-valuenow='{{ mem[11] }}' style='width:{{mem[11]/mem[12]*100}}%' ng-class='mem[11]/mem[12]*100 <= 20 ? "progress-bar-success" : (mem[11]/mem[12]*100 >= 60 ? "progress-bar-danger" : "progress-bar-warning")')
+                    p.small Used memory
+                    div.progress
+                        div.progress-bar-striped.progress-bar.active(aria-valuemin='0' aria-valuemax='{{mem[12]+mem[11]}}' aria-valuenow='{{ mem[11] }}' style='width:{{mem[11]/mem[12]*100}}%' ng-class='mem[11]/mem[12]*100 <= 20 ? "progress-bar-success" : (mem[11]/mem[12]*100 >= 60 ? "progress-bar-danger" : "progress-bar-warning")')
                             span {{ mem[6] }}&nbsp;MB
 
             hr
 
-            div(class='row')
-                div(class='col-sm-8')
+            div.row
+                div.col-sm-8
                     h2 Memory stats
-                    table(class='table')
+                    table.table
                         thead
                             tr
                                 th Type
@@ -110,18 +118,15 @@ html(ng-app='server-status-remake' ng-controller='main' ng-init='time_temp = "re
                                 td -
                                 td -
 
-                div(class='col-sm-4')
+                div.col-sm-4
                     h2 Network
-                    span(class='glyphicon glyphicon-upload')
+                    span.glyphicon.glyphicon-upload
                     span {{ up }}
                     br
-                    span(class='glyphicon glyphicon-download')
+                    span.glyphicon.glyphicon-download
                     span {{ down }}
 
-            //- TODO: Add row and column for table with memory data
-            //- Use ng-repeat to display the values; looks cooler
-
-            footer(class='footer')
+            footer.footer
                 hr
                 p Last pulled:&nbsp;
                     b {{ pulled }}
@@ -129,6 +134,4 @@ html(ng-app='server-status-remake' ng-controller='main' ng-init='time_temp = "re
         // JavaScripts
         script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js')
         script(src='https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js')
-        script(src="http://code.highcharts.com/highcharts.js")
-        script(src="http://code.highcharts.com/modules/exporting.js")
         script(src='scripts/ang.js')

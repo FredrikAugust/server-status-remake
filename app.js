@@ -4,8 +4,9 @@
 // Imports
 var express = require('express');
 var Promise = require('promise');
-var db = require('./db.js');
 var client = require('./client.js');
+
+var exec = require('child_process').exec;
 
 // Create app
 var app = express();
@@ -14,39 +15,12 @@ app.use(express.static('public'));
 
 // Routes
 
-// GET: Get the 20 last values from either temp or load.
-app.get('/realtime/:mode', function (req, res) {
-    db.realtime(req.params.mode).then(function (result) {
-        res.send(result);
-    }, function (err) {
-        res.send(err);
-    });
-});
-
-// GET: Get the 20 last average minute temps or loads
-app.get('/minute/:mode', function (req, res) {
-    db.minute(req.params.mode).then(function (result) {
-        res.send(result);
-    }, function (err) {
-        res.send(err);
-    });
-});
-
-// GET: Get the 10 last average hour temps or loads
-app.get('/hour/:mode', function (req, res) {
-    db.hour(req.params.mode).then(function (result) {
-        res.send(result);
-    }, function (err) {
-        res.send(err);
-    });
-});
-
-// GET: Get the 7 last average day temps or loads
-app.get('/day/:mode', function (req, res) {
-    db.day(req.params.mode).then(function (result) {
-        res.send(result);
-    }, function (err) {
-        res.send(err);
+// GET: Generate new graphs
+app.get('/refresh', function (req, res) {
+    exec('python main.py', function (err, stdout, stderr) {
+        if (!err) {
+            console.log('Creating new graphs.');
+        }
     });
 });
 
