@@ -31,9 +31,9 @@ app.controller('main', ['$scope', '$http', function ($scope, $http) {
 	// Current temperature
 	$http({
 		method: 'GET',
-		url: '/realtime/temp'
+		url: '/temp'
 	}).success(function (data, status) {
-		$scope.temp = parseFloat(data[0][1]).toFixed(2);
+		$scope.temp = parseFloat(data / 10).toFixed(2);
 	}).error(function (data, status) {
 		$scope.temp = 0;
 		return new Error('Could not retrieve current temp.');
@@ -42,9 +42,9 @@ app.controller('main', ['$scope', '$http', function ($scope, $http) {
 	// Current CPU load
 	$http({
 		method: 'GET',
-		url: '/realtime/load'
+		url: '/load'
 	}).success(function (data, status) {
-		$scope.load = parseFloat(data[0][1]).toFixed(2);
+		$scope.load = parseFloat(data).toFixed(2);
 	}).error(function (data, status) {
 		$scope.load = 0;
 		return new Error('Could not retrieve current load.');
