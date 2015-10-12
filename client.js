@@ -20,6 +20,7 @@ var getcommand = function (re, command) {
                 if (re.test(stdout)) {
                     resolve(re.exec(stdout)[1]);
                 } else {
+                    console.log('Could not match: ' + stdout + '.');
                     reject('Error in command ' + command);
                 }
             } else {
