@@ -23,8 +23,10 @@ app.controller('main', ['$scope', '$http', function ($scope, $http) {
 		method: 'GET',
 		url: '/images'
 	}).success(function (data, status) {
+		console.log(data);
 		$scope.images = data;
 	}).error(function (data, status) {
+		console.log('Could not create an array of image names.');
 		$scope.images = [];
 	});
 
