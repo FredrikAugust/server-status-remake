@@ -36,6 +36,23 @@ app.get('/refresh', function (req, res) {
     });
 });
 
+// TEMP/LOAD
+app.get('/load', function (req, res) {
+    client.getcommand(/(^.*$)/, 'getcpuusage').then(function (result) {
+        res.send(result);
+    }, function (err) {
+        res.send(err);
+    });
+});
+
+app.get('/temp', function (req, res) {
+    client.getcommand(/(^.*$)/, 'getcputemp').then(function (result) {
+        res.send(result);
+    }, function (err) {
+        res.send(err);
+    });
+});
+
 // Regex
 var network_re = /([\s\S]+)/;
 var network_down_str = "cat /sys/class/net/eth0/statistics/rx_bytes";
