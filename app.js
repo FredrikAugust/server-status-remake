@@ -39,18 +39,20 @@ app.get('/refresh', function (req, res) {
 // TEMP/LOAD
 app.get('/load', function (req, res) {
     client.getcommand(/(^.*$)/, 'getcpuusage').then(function (result) {
-        console.log(result);
+        console.log('LOAD: ' + result);
         res.send(result);
     }, function (err) {
+        console.log('ERR: ' + err);
         res.send(err);
     });
 });
 
 app.get('/temp', function (req, res) {
     client.getcommand(/(^.*$)/, 'getcputemp').then(function (result) {
-        console.log(result);
+        console.log('TEMP: ' + result);
         res.send(result);
     }, function (err) {
+        console.log('ERR: ' + err);
         res.send(err);
     });
 });
