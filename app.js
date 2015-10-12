@@ -34,11 +34,16 @@ app.get('/images', function (req, res) {
     var file = fs.readFile('cfg/intervals.json', function (err, data) {
         var file_data = JSON.parse(data);
 
+        console.log(file_data);
+
         var names = [];
 
         for (var i = 0; i < file_data.length; i++) {
             names.push(file_data[i].name);
+            console.log('Adding name: ' + file_data[i].name);
         }
+
+        console.log('Sending along: ' + names);
 
         res.send(names);
     });
