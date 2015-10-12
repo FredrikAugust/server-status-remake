@@ -39,13 +39,13 @@ app.get('/refresh', function (req, res) {
 // TEMP/LOAD
 app.get('/load', function (req, res) {
     exec('getcpuusage', function (err, stdout, stderr) {
-        req.send(stdout);
+        res.send(stdout);
     });
 });
 
 app.get('/temp', function (req, res) {
     exec('getcputemp', function (err, stdout, stderr) {
-        req.send(stdout);
+        res.send(stdout);
     });
 });
 
