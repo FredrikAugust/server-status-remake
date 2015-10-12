@@ -25,20 +25,20 @@ html(ng-app='server-status-remake' ng-controller='main')
                     div
                         img(ng-src='public/{{ temp_chart }}' class='img img-responsive')
                     br
-                    span.btn.btn-default(ng-class="temp_chart=='Temperature-' + images[0] + '.png' ? 'active' : ''" ng-click="temp_chart = 'Temperature-' + images[0] + '.png'") {{ images[0] }}
-                    span.btn.btn-default(ng-class="temp_chart=='Temperature-' + images[1] + '.png' ? 'active' : ''" ng-click="temp_chart = 'Temperature-' + images[1] + '.png'") {{ images[1] }}
-                    span.btn.btn-default(ng-class="temp_chart=='Temperature-' + images[2] + '.png' ? 'active' : ''" ng-click="temp_chart = 'Temperature-' + images[2] + '.png'") {{ images[2] }}
-                    span.btn.btn-default(ng-class="temp_chart=='Temperature-' + images[3] + '.png' ? 'active' : ''" ng-click="temp_chart = 'Temperature-' + images[3] + '.png'") {{ images[3] }}
+                    span.btn.btn-default(ng-class="temp_chart=='Temperature-' + imgs[0] + '.png' ? 'active' : ''" ng-click="temp_chart = 'Temperature-' + imgs[0] + '.png'") {{ imgs[0] }}
+                    span.btn.btn-default(ng-class="temp_chart=='Temperature-' + imgs[1] + '.png' ? 'active' : ''" ng-click="temp_chart = 'Temperature-' + imgs[1] + '.png'") {{ imgs[1] }}
+                    span.btn.btn-default(ng-class="temp_chart=='Temperature-' + imgs[2] + '.png' ? 'active' : ''" ng-click="temp_chart = 'Temperature-' + imgs[2] + '.png'") {{ imgs[2] }}
+                    span.btn.btn-default(ng-class="temp_chart=='Temperature-' + imgs[3] + '.png' ? 'active' : ''" ng-click="temp_chart = 'Temperature-' + imgs[3] + '.png'") {{ imgs[3] }}
                 div.col-sm-6
                     p(class='lead') Current CPU Load:&nbsp;
                         b {{ load }}%
                     div
                         img.img.img-responsive(ng-src='public/{{ load_chart }}')
                     br
-                    span.btn.btn-default(ng-class="load_chart=='CPULoad-' + images[0] + '.png' ? 'active' : ''" ng-click="load_chart = 'CPULoad-' + images[0] + '.png") {{ images[0] }}
-                    span.btn.btn-default(ng-class="load_chart=='CPULoad-' + images[0] + '.png' ? 'active' : ''" ng-click="load_chart = 'CPULoad-' + images[1] + '.png") {{ images[1] }}
-                    span.btn.btn-default(ng-class="load_chart=='CPULoad-' + images[0] + '.png' ? 'active' : ''" ng-click="load_chart = 'CPULoad-' + images[2] + '.png") {{ images[2] }}
-                    span.btn.btn-default(ng-class="load_chart=='CPULoad-' + images[0] + '.png' ? 'active' : ''" ng-click="load_chart = 'CPULoad-' + images[3] + '.png") {{ images[3] }}
+                    span.btn.btn-default(ng-class="load_chart=='CPULoad-' + imgs[0] + '.png' ? 'active' : ''" ng-click="load_chart = 'CPULoad-' + imgs[0] + '.png") {{ imgs[0] }}
+                    span.btn.btn-default(ng-class="load_chart=='CPULoad-' + imgs[0] + '.png' ? 'active' : ''" ng-click="load_chart = 'CPULoad-' + imgs[1] + '.png") {{ imgs[1] }}
+                    span.btn.btn-default(ng-class="load_chart=='CPULoad-' + imgs[0] + '.png' ? 'active' : ''" ng-click="load_chart = 'CPULoad-' + imgs[2] + '.png") {{ imgs[2] }}
+                    span.btn.btn-default(ng-class="load_chart=='CPULoad-' + imgs[0] + '.png' ? 'active' : ''" ng-click="load_chart = 'CPULoad-' + imgs[3] + '.png") {{ imgs[3] }}
 
             div.row
                 div.col-xs-12
