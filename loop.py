@@ -6,6 +6,8 @@ gets written to the temps/loads .csv files.
 from time import sleep
 from os import popen
 
+from datetime import datetime
+
 import re
 
 import csv
@@ -24,14 +26,15 @@ temps_writer = None
 
 while True:
     load_raw = popen('mpstat 1 1').read()
-    load = 100.0 - float(load_re.findall(load_raw)[-1].replace(',', '.'))
+    load = round(100.0 - float(load_re.findall(load_raw)[-1].replace(',', '.')), 2)
 
     temp_raw = popen("sensors | grep 'Physical id 0:'").read()
     temp_raw = temp_raw.replace('\n', '')
     temp_raw = temp_raw.replace('+', '')
     temp = round(float(''.join(ints.findall(temp_raw.split(' ')[4]))), 1)
 
-    date = popen('date --rfc-3339=\'seconds\'').read().replace('\n', '')
+    date = datetime.now()
+    date = date.isoformat()
 
     with open(LOADSCSV, 'ab') as file:
         loads_writer = csv.writer(file, delimiter=',')
