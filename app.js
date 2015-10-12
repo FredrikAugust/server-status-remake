@@ -14,36 +14,17 @@ app.use(express.static('public'));
 
 // Routes
 
-// GET: Get the 20 last values from either temp or load.
-app.get('/realtime/:mode', function (req, res) {
-    db.realtime(req.params.mode).then(function (result) {
+// TEMP/LOAD
+app.get('/load', function (req, res) {
+    client.getcommand(/(^.*$)/, 'getcpuusage').then(function (result) {
         res.send(result);
     }, function (err) {
         res.send(err);
     });
 });
 
-// GET: Get the 20 last average minute temps or loads
-app.get('/minute/:mode', function (req, res) {
-    db.minute(req.params.mode).then(function (result) {
-        res.send(result);
-    }, function (err) {
-        res.send(err);
-    });
-});
-
-// GET: Get the 10 last average hour temps or loads
-app.get('/hour/:mode', function (req, res) {
-    db.hour(req.params.mode).then(function (result) {
-        res.send(result);
-    }, function (err) {
-        res.send(err);
-    });
-});
-
-// GET: Get the 7 last average day temps or loads
-app.get('/day/:mode', function (req, res) {
-    db.day(req.params.mode).then(function (result) {
+app.get('/temp', function (req, res) {
+    client.getcommand(/(^.*$)/, 'getcputemp').then(function (result) {
         res.send(result);
     }, function (err) {
         res.send(err);
