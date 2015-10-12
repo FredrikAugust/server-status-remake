@@ -16,7 +16,7 @@ app.controller('main', ['$scope', '$http', function ($scope, $http) {
 		}).error(function (data, status) {
 			console.log('Could not create new graphs.');
 		});
-	}
+	};
 
 	// Memory stats
 	$http({

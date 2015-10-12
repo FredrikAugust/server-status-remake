@@ -13,6 +13,17 @@ var app = express();
 app.set('view engine', 'jade');
 app.use(express.static('public'));
 
+console.log('Trying to start loop.');
+
+// Run the looping file (py)
+exec('loop.py', function (err, stdout, stderr) {
+    if (!err) {
+        console.log('Loop is running.');
+    } else {
+        console.log('Could not start loop!');
+    }
+});
+
 // Routes
 
 // GET: Generate new graphs
