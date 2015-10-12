@@ -21,6 +21,7 @@ exec('loop.py', function (err, stdout, stderr) {
         console.log('Loop is running.');
     } else {
         console.log('Could not start loop!');
+        console.log(err);
     }
 });
 
