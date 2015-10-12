@@ -1,3 +1,4 @@
+#!/usr/bin/python
 """This is where I will put the code that makes sure that the new temp/load
 gets written to the temps/loads .csv files.
 """
