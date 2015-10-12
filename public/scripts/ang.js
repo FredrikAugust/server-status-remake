@@ -21,7 +21,7 @@ app.controller('main', ['$scope', '$http', function ($scope, $http) {
 		method: 'GET',
 		url: '/temp'
 	}).success(function (data, status) {
-		$scope.temp = parseFloat(data).toFixed(2);
+		$scope.temp = parseFloat(data / 10).toFixed(2);
 	}).error(function (data, status) {
 		$scope.temp = 0;
 		return new Error('Could not retrieve current temp.');
