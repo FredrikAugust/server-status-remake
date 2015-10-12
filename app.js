@@ -16,7 +16,7 @@ app.use(express.static('public'));
 console.log('Trying to start loop.');
 
 // Run the looping file (py)
-exec('loop.py', function (err, stdout, stderr) {
+exec('python loop.py', function (err, stdout, stderr) {
     if (!err) {
         console.log('Loop is running.');
     } else {
