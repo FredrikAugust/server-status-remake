@@ -18,6 +18,16 @@ app.controller('main', ['$scope', '$http', function ($scope, $http) {
 		});
 	};
 
+	// img-names
+	$http({
+		method: 'GET',
+		url: '/images'
+	}).success(function (data, status) {
+		$scope.images = data;
+	}).error(function (data, status) {
+		$scope.images = [];
+	});
+
 	// Memory stats
 	$http({
 		method: 'GET',

@@ -6,6 +6,8 @@ var express = require('express');
 var Promise = require('promise');
 var client = require('./client.js');
 
+var fs = require('fs');
+
 var exec = require('child_process').exec;
 
 // Create app
@@ -26,6 +28,21 @@ exec('python loop.py', function (err, stdout, stderr) {
 });
 
 // Routes
+
+// GET list of images
+app.get('/images', function (req, res) {
+    var file = fs.readFile('cfg/intervals.json', function (err, data) {
+        var file_data = JSON.parse(data);
+
+        var names = [];
+
+        for (var i = 0; i < file_data.length; i++) {
+            names.push(file_data[i].name);
+        }
+
+        res.send(names);
+    });
+});
 
 // GET: Generate new graphs
 app.get('/refresh', function (req, res) {
