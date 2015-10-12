@@ -29,9 +29,9 @@ while True:
     temp_raw = popen("sensors | grep 'Physical id 0:'").read()
     temp_raw = temp_raw.replace('\n', '')
     temp_raw = temp_raw.replace('+', '')
-    temp = round(float(''.join(ints.findall(temp_raw.split(' ')[4]))),1)
+    temp = round(float(''.join(ints.findall(temp_raw.split(' ')[4]))), 1)
 
-    date = popen('date').read().replace('\n', '')
+    date = popen('date --rfc-3339=\'seconds\'').read().replace('\n', '')
 
     with open(LOADSCSV, 'ab') as file:
         loads_writer = csv.writer(file, delimiter=',')
