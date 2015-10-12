@@ -1,5 +1,5 @@
 doctype html
-html(ng-app='server-status-remake' ng-controller='main' ng-init='temp_chart = "Temperature-" + images[0] + ".png"; load_chart = "CPULoad-" + images[0] + ".png"')
+html(ng-app='server-status-remake' ng-controller='main')
     head
         title {{ temp }}&deg;C | {{ comp_name }}
 
@@ -10,7 +10,7 @@ html(ng-app='server-status-remake' ng-controller='main' ng-init='temp_chart = "T
         link(rel='stylesheet' href='stylesheets/bootstrap.css')
         link(rel='stylesheet' href='stylesheets/bootswatch.css')
         link(rel='stylesheet' href='stylesheets/style.css')
-    body
+    body(ng-init='temp_chart = "Temperature-" + imgs[0] + ".png"; load_chart = "CPULoad-" + imgs[0] + ".png"')
         div.container
             div.main
                 h1 {{ comp_name }}
