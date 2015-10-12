@@ -24,12 +24,12 @@ temps_writer = None
 
 while True:
     load_raw = popen('mpstat 1 1').read()
-    load = 100.0 - float(load_re.findall(load_raw)[-1].replace(',', '.'))
+    load = 100 - int(load_re.findall(load_raw)[-1].replace(',', '.'))
 
     temp_raw = popen("sensors | grep 'Physical id 0:'").read()
     temp_raw = temp_raw.replace('\n', '')
     temp_raw = temp_raw.replace('+', '')
-    temp = float(''.join(ints.findall(temp_raw.split(' ')[4])))
+    temp = round(float(''.join(ints.findall(temp_raw.split(' ')[4]))),1)
 
     date = popen('date').read().replace('\n', '')
 
