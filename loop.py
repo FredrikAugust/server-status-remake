@@ -31,7 +31,7 @@ while True:
     temp_raw = temp_raw.replace('+', '')
     temp = float(''.join(ints.findall(temp_raw.split(' ')[4])))
 
-    date = popen('date').replace('\n', '')
+    date = popen('date').read().replace('\n', '')
 
     with open(LOADSCSV, 'ab') as file:
         loads_writer = csv.writer(file, delimiter=',')
