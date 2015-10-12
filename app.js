@@ -39,6 +39,7 @@ app.get('/refresh', function (req, res) {
 // TEMP/LOAD
 app.get('/load', function (req, res) {
     client.getcommand(/(^.*$)/, 'getcpuusage').then(function (result) {
+        console.log(result);
         res.send(result);
     }, function (err) {
         res.send(err);
@@ -47,6 +48,7 @@ app.get('/load', function (req, res) {
 
 app.get('/temp', function (req, res) {
     client.getcommand(/(^.*$)/, 'getcputemp').then(function (result) {
+        console.log(result);
         res.send(result);
     }, function (err) {
         res.send(err);
